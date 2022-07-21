@@ -14,6 +14,8 @@ class BaseConfig:
     LC_ALL = "en_US.utf-8"
     LANG = "en_US.utf-8"
 
+    LISTENER_TOKEN = os.environ.get("LISTENER_TOKEN", "")
+
 
 class ProductionConfig(BaseConfig):
     """Production configuration"""
