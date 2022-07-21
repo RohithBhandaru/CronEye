@@ -1,0 +1,27 @@
+import os
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
+from .config import env_mapper
+
+db = SQLAlchemy()
+migrate = Migrate()
+
+def create_app():
+    app = Flask(__name__)
+
+    app.config.from_object(env_mapper[os.environ.get("FLASK_ENV", "qa")])
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_pre_ping": True,
+        "pool_recycle": 2400,
+    }
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+
+    @app.shell_context_processor
+    def ctx():
+        return {"app": app, "db": db}
+
+    return app
