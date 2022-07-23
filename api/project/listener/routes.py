@@ -5,11 +5,10 @@ from apscheduler import events
 from . import listener
 from .queries import upsert_job, update_job_activity, add_job_execution_event, update_job_schedule
 from ..utils.db import DbConnection
-from ..utils.helper import authenticate
+from ..utils.helper import authenticate_listener
 from ..logs import config as logger_config
 from ..utils.enums import HTTPResponseCodes
 from ..logs.logger_templates import (
-    authentication_failed_401,
     bad_request_400,
     internal_server_error_500,
     unauthorised_user_403,
@@ -20,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 @listener.route("/event", methods=["POST"])
-@authenticate
+@authenticate_listener
 def process_event(resp):
     response = {"status": "failure", "message": "", "data": {}}
     if resp == HTTPResponseCodes.BAD_REQUEST:
