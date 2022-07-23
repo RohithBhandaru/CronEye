@@ -23,6 +23,15 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
     TESTING = False
 
+    BCRYPT_LOG_ROUNDS = 4
+
+    TOKEN_EXPIRY_DAYS = 5
+    TOKEN_EXPIRY_SECONDS = 0
+
+    ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")
+    ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
+    ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
+
     DATABASE_HOST = os.environ.get("DATABASE_HOST")
     DATABASE_NAME = os.environ.get("DATABASE_NAME")
     DATABASE_USER = os.environ.get("DATABASE_USER")
@@ -36,6 +45,8 @@ class QaConfig(BaseConfig):
 
     DEBUG = True
     TESTING = True
+
+    BCRYPT_LOG_ROUNDS = 10
 
     DATABASE_HOST = os.environ.get("DATABASE_HOST")
     DATABASE_NAME = os.environ.get("DATABASE_NAME")
