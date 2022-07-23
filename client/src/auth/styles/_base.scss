@@ -23,7 +23,7 @@ html {
 
 *::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: $brand-orange;
+    background-color: $light-orange;
     border: 2px solid rgb(242, 244, 248);
 }
 
@@ -36,6 +36,46 @@ a {
     color: #047adf;
 }
 
-h1 {
-    color: $flash-success-border;
+.auth-page-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-wrap: wrap;
+    background-color: $light-orange;
+}
+
+.auth-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px 20px 0px 0px;
+    margin: 0px 60px 0px 0px;
+}
+
+#croneye {
+    color: $brand-blue;
+    font-size: 40px;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: "500";
+}
+
+.auth__logo {
+    margin: 0px 5px;
+    width: 60px;
+    height: 80px;
+}
+
+.croneye-title {
+    text-align: center;
+}
+
+.prod-description {
+    font-size: 20px;
+    margin-top: 20px;
+    color: #000;
 }
