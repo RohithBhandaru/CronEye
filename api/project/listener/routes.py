@@ -9,9 +9,9 @@ from ..utils.helper import authenticate_listener
 from ..logs import config as logger_config
 from ..utils.enums import HTTPResponseCodes
 from ..logs.logger_templates import (
+    authentication_failed_401,
     bad_request_400,
     internal_server_error_500,
-    unauthorised_user_403,
 )
 
 logging.config.dictConfig(logger_config)
@@ -23,14 +23,14 @@ logger = logging.getLogger(__name__)
 def process_event(resp):
     response = {"status": "failure", "message": "", "data": {}}
     if resp == HTTPResponseCodes.BAD_REQUEST:
-        bad_request_400(logger, "POST", "/api/v1/listener/event", "")
+        bad_request_400(logger, "POST", "/api/listener/event", "", {})
         response["message"] = "Bad request"
         return jsonify(response), HTTPResponseCodes.BAD_REQUEST
 
-    if resp == HTTPResponseCodes.UNAUTHORISED_USER:
-        unauthorised_user_403(logger, "POST", "/api/v1/listener/event", "")
+    if resp == HTTPResponseCodes.AUTHENTICATION_FAILED:
+        authentication_failed_401(logger, "POST", "/api/listener/event", "", {})
         response["message"] = "Unauthorised user"
-        return jsonify(response), HTTPResponseCodes.UNAUTHORISED_USER
+        return jsonify(response), HTTPResponseCodes.AUTHENTICATION_FAILED
 
     conn, cur = DbConnection().get_db_connection_instance()
     try:
@@ -62,6 +62,6 @@ def process_event(resp):
         response["status"] = "success"
         return jsonify(response), HTTPResponseCodes.SUCCESS
     except Exception:
-        internal_server_error_500(logger, "POST", "/api/v1/listener/event", "")
+        internal_server_error_500(logger, "POST", "/api/listener/event", "", {})
         response["message"] = "Internal server error"
         return jsonify(response), HTTPResponseCodes.INTERNAL_SERVER_ERROR

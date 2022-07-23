@@ -13,7 +13,7 @@ def authenticate_listener(f):
             return f(HTTPResponseCodes.BAD_REQUEST, *args, **kwargs)
 
         if auth_header != current_app.config.get("LISTENER_TOKEN"):
-            return f(HTTPResponseCodes.UNAUTHORISED_USER, *args, **kwargs)
+            return f(HTTPResponseCodes.AUTHENTICATION_FAILED, *args, **kwargs)
 
         return f(HTTPResponseCodes.SUCCESS, *args, **kwargs)
 
@@ -34,7 +34,7 @@ def authenticate_user(f):
         resp = Users.decode_auth_token(auth_token)
         if isinstance(resp, str):
             response_obj["message"] = resp
-            return jsonify(response_obj), HTTPResponseCodes.UNAUTHORISED_USER
+            return jsonify(response_obj), HTTPResponseCodes.AUTHENTICATION_FAILED
 
         user = Users.query.filter_by(id=resp).first()
         if not user:
