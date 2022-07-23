@@ -1,4 +1,9 @@
 import os
+from dotenv import load_dotenv
+
+dotenv_path = os.path.join(os.path.dirname(__file__), "qa.env")
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
 
 
 class BaseConfig:
@@ -32,12 +37,12 @@ class ProductionConfig(BaseConfig):
     ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
     ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
 
-    DATABASE_HOST = os.environ.get("DATABASE_HOST")
-    DATABASE_NAME = os.environ.get("DATABASE_NAME")
-    DATABASE_USER = os.environ.get("DATABASE_USER")
-    DATABASE_PASSWORD = os.environ.get("PROD_DATABASE_PASSWORD")
+    DATABASE_HOST = os.environ.get("DATABASE_HOST", "")
+    DATABASE_NAME = os.environ.get("DATABASE_NAME", "")
+    DATABASE_USER = os.environ.get("DATABASE_USER", "")
+    DATABASE_PASSWORD = os.environ.get("PROD_DATABASE_PASSWORD", "")
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get("PROD_DATABASE_URL_CORE")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("PROD_DATABASE_URL", "")
 
 
 class QaConfig(BaseConfig):
@@ -48,12 +53,12 @@ class QaConfig(BaseConfig):
 
     BCRYPT_LOG_ROUNDS = 10
 
-    DATABASE_HOST = os.environ.get("DATABASE_HOST")
-    DATABASE_NAME = os.environ.get("DATABASE_NAME")
-    DATABASE_USER = os.environ.get("DATABASE_USER")
-    DATABASE_PASSWORD = os.environ.get("QA_DATABASE_PASSWORD")
+    DATABASE_HOST = os.environ.get("DATABASE_HOST", "")
+    DATABASE_NAME = os.environ.get("DATABASE_NAME", "")
+    DATABASE_USER = os.environ.get("DATABASE_USER", "")
+    DATABASE_PASSWORD = os.environ.get("QA_DATABASE_PASSWORD", "")
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get("QA_DATABASE_URL_CORE")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("QA_DATABASE_URL", "")
 
 
 env_mapper = {"production": ProductionConfig, "qa": QaConfig}
