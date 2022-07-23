@@ -4,3 +4,8 @@
 **/venv
 **/**.env
 **/**.db
+
+#Client
+**/public
+**/node_modules
+**/package-lock.json
