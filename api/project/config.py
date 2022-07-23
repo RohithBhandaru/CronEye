@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 dotenv_path = os.path.join(os.path.dirname(__file__), "qa.env")
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
@@ -12,6 +13,9 @@ class BaseConfig:
     FLASK_ENV = os.environ.get("FLASK_ENV", "qa")
     JSON_SORT_KEYS = False
     SECRET_KEY = os.environ.get("SECRET_KEY", "apseye-s3cret-Key")
+
+    TOKEN_EXPIRY_DAYS = 5
+    TOKEN_EXPIRY_SECONDS = 0
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CORS_HEADERS = "Content-Type"
@@ -29,9 +33,6 @@ class ProductionConfig(BaseConfig):
     TESTING = False
 
     BCRYPT_LOG_ROUNDS = 4
-
-    TOKEN_EXPIRY_DAYS = 5
-    TOKEN_EXPIRY_SECONDS = 0
 
     ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")
     ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
@@ -58,7 +59,9 @@ class QaConfig(BaseConfig):
     DATABASE_USER = os.environ.get("DATABASE_USER", "")
     DATABASE_PASSWORD = os.environ.get("QA_DATABASE_PASSWORD", "")
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get("QA_DATABASE_URL", "")
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
+        basedir, "data-dev.db"
+    )  # os.environ.get("QA_DATABASE_URL", "")
 
 
 env_mapper = {"production": ProductionConfig, "qa": QaConfig}

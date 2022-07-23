@@ -6,7 +6,7 @@ from . import listener
 from .queries import upsert_job, update_job_activity, add_job_execution_event, update_job_schedule
 from ..utils.db import DbConnection
 from ..utils.helper import authenticate_listener
-from ..logs import config as logger_config
+from ..logs.config import config as logger_config
 from ..utils.enums import HTTPResponseCodes
 from ..logs.logger_templates import (
     authentication_failed_401,
@@ -22,15 +22,15 @@ logger = logging.getLogger(__name__)
 @authenticate_listener
 def process_event(resp):
     response = {"status": "failure", "message": "", "data": {}}
-    if resp == HTTPResponseCodes.BAD_REQUEST:
+    if resp == HTTPResponseCodes.BAD_REQUEST.value:
         bad_request_400(logger, "POST", "/api/listener/event", "", {})
         response["message"] = "Bad request"
-        return jsonify(response), HTTPResponseCodes.BAD_REQUEST
+        return jsonify(response), HTTPResponseCodes.BAD_REQUEST.value
 
-    if resp == HTTPResponseCodes.AUTHENTICATION_FAILED:
+    if resp == HTTPResponseCodes.AUTHENTICATION_FAILED.value:
         authentication_failed_401(logger, "POST", "/api/listener/event", "", {})
         response["message"] = "Unauthorised user"
-        return jsonify(response), HTTPResponseCodes.AUTHENTICATION_FAILED
+        return jsonify(response), HTTPResponseCodes.AUTHENTICATION_FAILED.value
 
     conn, cur = DbConnection().get_db_connection_instance()
     try:
@@ -60,8 +60,8 @@ def process_event(resp):
 
         conn.commit()
         response["status"] = "success"
-        return jsonify(response), HTTPResponseCodes.SUCCESS
+        return jsonify(response), HTTPResponseCodes.SUCCESS.value
     except Exception:
         internal_server_error_500(logger, "POST", "/api/listener/event", "", {})
         response["message"] = "Internal server error"
-        return jsonify(response), HTTPResponseCodes.INTERNAL_SERVER_ERROR
+        return jsonify(response), HTTPResponseCodes.INTERNAL_SERVER_ERROR.value

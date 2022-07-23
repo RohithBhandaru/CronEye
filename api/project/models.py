@@ -55,7 +55,6 @@ class Users(db.Model):
             "email": self.email,
             "active": self.active,
             "user_group": self.group.name,
-            "client_code": self.client.client_code if self.client else None,
         }
 
     def encode_auth_token(self, user_id):

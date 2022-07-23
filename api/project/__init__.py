@@ -24,6 +24,13 @@ def create_app():
     migrate.init_app(app, db)
     bcrypt.init_app(app)
 
+    from .auth import auth as auth_blueprint
+
+    # from .listener import listener as listener_blueprint
+
+    app.register_blueprint(auth_blueprint, url_prefix="/api/auth")
+    # app.register_blueprint(listener_blueprint, url_prefix="/api/listener")
+
     @app.shell_context_processor
     def ctx():
         return {"app": app, "db": db}
