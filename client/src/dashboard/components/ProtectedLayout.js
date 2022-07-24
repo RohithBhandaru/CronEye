@@ -1,6 +1,11 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
+
+import Header from "./Header";
+
+import "../styles/dashboard.scss";
+
 import { userSelector } from "../../auth/selectors/authSelector";
 
 const ProtectedLayout = ({ children }) => {
@@ -11,8 +16,8 @@ const ProtectedLayout = ({ children }) => {
     }
 
     return (
-        <div>
-            <h1>Test</h1>
+        <div className="dashboard-container">
+            <Header />
             <Outlet />
         </div>
     );

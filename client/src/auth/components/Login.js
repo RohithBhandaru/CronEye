@@ -24,7 +24,6 @@ const Login = (props) => {
     const [emailEmpty, setEmailEmpty] = useState(false);
     const [passwordEmpty, setPasswordEmpty] = useState(false);
     const [flash, toggleFlash] = useState(true);
-    console.log(props.auth.serverMessage);
 
     const dispatch = useDispatch();
     const handleChange = (e) => {
@@ -53,7 +52,6 @@ const Login = (props) => {
                 })
                 .then((response) => {
                     const data = response.data;
-                    console.log(data);
                     dispatch(loginUser({ email: props.auth.loginForm.email, authToken: data.auth_token }));
                     dispatch(updateServerMessage({ serverMessageType: data.status, serverMessage: data.message }));
                     dispatch(clearAuthForm());
@@ -84,7 +82,10 @@ const Login = (props) => {
                 <p className="auth-form-title">Login</p>
 
                 <form className="form__login" noValidate onSubmit={handleSubmit}>
-                    <div className="form-field-title-div form-field-title">Email</div>
+                    <div className="form-field-title-div form-field-title">
+                        <div className="form-field-title">Email</div>
+                        <text style={{ color: "red" }}>*</text>
+                    </div>
                     <div className="form-field-box form-input">
                         <div className="auth-icons">
                             <EmailIcon color={emailEmpty ? "red" : "black"} width={23} height={23} />
@@ -101,6 +102,7 @@ const Login = (props) => {
 
                     <div className="form-field-title-div">
                         <div className="form-field-title">Password</div>
+                        <text style={{ color: "red" }}>*</text>
                     </div>
                     <div className="form-field-box form-input">
                         <div className="auth-icons">

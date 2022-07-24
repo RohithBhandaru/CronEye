@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LoadableAuth from "../auth/components/LoadableAuth";
 import HomeLayout from "../common/components/HomeLayout";
-import ProtectedLayout from "../common/components/ProtectedLayout";
+import ProtectedLayout from "../dashboard/components/ProtectedLayout";
 
 const AppRouter = () => {
     return (

@@ -1,0 +1,9 @@
+@import "../../common/styles/settings";
+@import "./header";
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    min-height: 100vh;
+}
