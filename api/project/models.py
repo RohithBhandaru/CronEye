@@ -102,18 +102,31 @@ class Users(db.Model):
         return True
 
 
+class Schedulers(db.Model):
+    __tablename__ = "schedulers"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    alias = db.Column(db.String, nullable=False)
+    status = db.Column(db.String, nullable=False, default=True) #active, shutdown, paused
+
+    def __init__(self, alias, status):
+        self.alias = alias
+        self.status = status
+
 class Jobs(db.Model):
     __tablename__ = "jobs"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     job_id = db.Column(db.String, nullable=False)
     task = db.Column(db.String, nullable=False)
     is_active = db.Column(db.BOOLEAN, nullable=False, default=True)
+    scheduler_id = db.Column(db.Integer, db.ForeignKey("schedulers.id"))
+    scheduler = db.relationship("Schedulers", backref=db.backref("jobs", uselist=True))
     next_scheduled_run = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, job_id, task, is_active=True):
+    def __init__(self, job_id, task, scheduler_id, is_active=True):
         self.job_id = job_id
         self.task = task
         self.is_active = is_active
+        self.scheduler_id = scheduler_id
 
 
 class ExecutionEvents(db.Model):

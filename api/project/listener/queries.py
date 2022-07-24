@@ -1,3 +1,11 @@
+upsert_scheduler = """
+INSERT INTO schedulers (alias, status)
+    VALUES (%s, %s)
+ON CONFLICT (alias)
+    DO UPDATE SET
+        status = EXCLUDED.status
+"""
+
 upsert_job = """
 INSERT INTO jobs (job_id, task)
     VALUES (%s, %s)

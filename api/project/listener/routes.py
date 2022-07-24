@@ -3,7 +3,7 @@ from flask import jsonify, request
 from apscheduler import events
 
 from . import listener
-from .queries import upsert_job, update_job_activity, add_job_execution_event, update_job_schedule
+from .queries import upsert_scheduler, upsert_job, update_job_activity, add_job_execution_event, update_job_schedule
 from ..utils.db import DbConnection
 from ..utils.helper import authenticate_listener
 from ..logs.config import config as logger_config
@@ -36,6 +36,7 @@ def process_event(resp):
     try:
         data = json.loads(request.data)
         event_code = data.get("event_code")
+        alias = data.get("alias")
         job_id = data.get("job_id")
         task = data.get("task")
         status = data.get("status")
@@ -45,6 +46,14 @@ def process_event(resp):
         next_scheduled_run_time = data.get("next_scheduled_run_time")
         time = data.get("time")
 
+        if event_code == events.EVENT_SCHEDULER_STARTED:
+            cur.execute(upsert_scheduler, (alias, "active"))
+        if event_code == events.EVENT_SCHEDULER_SHUTDOWN:
+            cur.execute(upsert_scheduler, (alias, "shutdown"))
+        if event_code == events.EVENT_SCHEDULER_PAUSED:
+            cur.execute(upsert_scheduler, (alias, "paused"))
+        if event_code == events.EVENT_SCHEDULER_RESUMED:
+            cur.execute(upsert_scheduler, (alias, "active"))
         if event_code == events.EVENT_JOB_ADDED:
             cur.execute(upsert_job, (job_id, task))
         if event_code == events.EVENT_JOB_REMOVED:
