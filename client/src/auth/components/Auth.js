@@ -23,7 +23,7 @@ const Auth = (props) => {
                 <div id="croneye">
                     <img src={LogoNoName} className="auth__logo" alt="APSEye" align="middle" />
                     <div className="croneye-title">CronEye</div>
-                    <div className="prod-description">Better track your cron jobs</div>
+                    <div className="prod-description">Better track your APS cron jobs</div>
                 </div>
             </div>
 

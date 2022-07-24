@@ -16,11 +16,31 @@ const authSlice = createSlice({
         },
     },
     reducers: {
-        updateAuthForm(state, action) {},
+        updateAuthForm(state, action) {
+            const { form, name, value } = action.payload;
+            state[form][name] = value;
+        },
         updateAuthFormSubmitStatus(state, action) {},
-        loginUser(state, action) {},
-        logoutUser(state, action) {},
-        updateServerMessage(state, action) {},
+        loginUser(state, action) {
+            const { email, authToken } = action.payload;
+            state.user.email = email;
+            state.user.isAuthenticated = true;
+            state.user.authToken = authToken;
+        },
+        logoutUser(state, action) {
+            state.user = {
+                email: "",
+                isAuthenticated: false,
+                authToken: "",
+            };
+            state.serverMessage = "";
+            state.serverMessageType = "";
+        },
+        updateServerMessage(state, action) {
+            const { serverMessageType, serverMessage } = action.payload;
+            state.serverMessageType = serverMessageType;
+            state.serverMessage = serverMessage;
+        },
     },
 });
 
