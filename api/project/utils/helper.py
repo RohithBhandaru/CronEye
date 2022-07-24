@@ -12,7 +12,7 @@ def authenticate_listener(f):
         if not auth_header:
             return f(HTTPResponseCodes.BAD_REQUEST.value, *args, **kwargs)
 
-        if auth_header != current_app.config.get("LISTENER_TOKEN"):
+        if auth_header != "Token " + current_app.config.get("LISTENER_TOKEN"):
             return f(HTTPResponseCodes.AUTHENTICATION_FAILED.value, *args, **kwargs)
 
         return f(HTTPResponseCodes.SUCCESS.value, *args, **kwargs)

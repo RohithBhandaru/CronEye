@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-dotenv_path = os.path.join(os.path.dirname(__file__), "qa.env")
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
@@ -59,9 +59,7 @@ class QaConfig(BaseConfig):
     DATABASE_USER = os.environ.get("DATABASE_USER", "")
     DATABASE_PASSWORD = os.environ.get("QA_DATABASE_PASSWORD", "")
 
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
-        basedir, "data-dev.db"
-    )  # os.environ.get("QA_DATABASE_URL", "")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("QA_DATABASE_URL", "")
 
 
 env_mapper = {"production": ProductionConfig, "qa": QaConfig}
