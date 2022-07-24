@@ -122,7 +122,7 @@ const Login = (props) => {
                 </form>
             </div>
             <div style={{ fontStyle: "italic", marginTop: "10px" }}>
-                * Use the credentials given while setting up APSEye
+                * Use the credentials given while setting up CronEye
             </div>
         </div>
     );
