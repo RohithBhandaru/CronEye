@@ -1,21 +1,23 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 import LogoNoName from "../../assets/icons/logo--no-name.svg";
+import { logoutUser } from "../../auth/slice/authSlice";
 
 const SideNav = () => {
+    const dispatch = useDispatch();
     return (
         <div className="header-container">
             <div className="logo-container">
                 <img src={LogoNoName} alt="CronEye" align="middle" width={"25"} height={"25"} />
-                <text className="logo-name">CronEye</text>
+                <div className="logo-name">CronEye</div>
             </div>
 
             <div className="options-list">
                 <NavLink
                     to="/dashboard"
                     className={({ isActive }) => {
-                        console.log(isActive);
                         return ["option-btn", isActive && "active-option-btn"].filter(Boolean).join(" ");
                     }}
                 >
@@ -29,9 +31,14 @@ const SideNav = () => {
                 >
                     Jobs
                 </NavLink>
-                <NavLink to="/auth/logout" className="option-btn logout-btn">
+                <div
+                    className="option-btn logout-btn"
+                    onClick={() => {
+                        dispatch(logoutUser());
+                    }}
+                >
                     Logout
-                </NavLink>
+                </div>
             </div>
         </div>
     );

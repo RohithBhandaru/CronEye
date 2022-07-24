@@ -84,7 +84,7 @@ const Login = (props) => {
                 <form className="form__login" noValidate onSubmit={handleSubmit}>
                     <div className="form-field-title-div form-field-title">
                         <div className="form-field-title">Email</div>
-                        <text style={{ color: "red" }}>*</text>
+                        <div style={{ color: "red" }}>*</div>
                     </div>
                     <div className="form-field-box form-input">
                         <div className="auth-icons">
@@ -102,7 +102,7 @@ const Login = (props) => {
 
                     <div className="form-field-title-div">
                         <div className="form-field-title">Password</div>
-                        <text style={{ color: "red" }}>*</text>
+                        <div style={{ color: "red" }}>*</div>
                     </div>
                     <div className="form-field-box form-input">
                         <div className="auth-icons">
