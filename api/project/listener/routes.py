@@ -37,9 +37,9 @@ def process_event(resp):
         data = json.loads(request.data)
         event_code = data.get("event_code")
         alias = data.get("alias")
-        job_id = data.get("job_id")
+        jobstore = data.get("jobstore")
+        job_id = str(data.get("job_id"))
         task = data.get("task")
-        status = data.get("status")
         return_value = data.get("return_value")
         exception = data.get("exception")
         traceback = data.get("traceback")
@@ -55,16 +55,16 @@ def process_event(resp):
         if event_code == events.EVENT_SCHEDULER_RESUMED:
             cur.execute(upsert_scheduler, (alias, "active"))
         if event_code == events.EVENT_JOB_ADDED:
-            cur.execute(upsert_job, (job_id, task))
+            cur.execute(upsert_job, (job_id, task, jobstore, True))
         if event_code == events.EVENT_JOB_REMOVED:
             cur.execute(update_job_activity, (False, job_id))
         if event_code == events.EVENT_JOB_SUBMITTED:
-            cur.execute(add_job_execution_event, (job_id, status, time, return_value, exception, traceback))
+            cur.execute(add_job_execution_event, (job_id, event_code, time, return_value, exception, traceback))
             cur.execute(update_job_schedule, (next_scheduled_run_time, job_id))
         if event_code in (events.EVENT_JOB_EXECUTED, events.EVENT_JOB_ERROR, events.EVENT_JOB_MISSED):
-            cur.execute(add_job_execution_event, (job_id, status, time, return_value, exception, traceback))
+            cur.execute(add_job_execution_event, (job_id, event_code, time, return_value, exception, traceback))
         if event_code == events.EVENT_JOB_MAX_INSTANCES:
-            cur.execute(add_job_execution_event, (job_id, status, time, return_value, exception, traceback))
+            cur.execute(add_job_execution_event, (job_id, event_code, time, return_value, exception, traceback))
             cur.execute(update_job_schedule, (next_scheduled_run_time, job_id))
 
         conn.commit()

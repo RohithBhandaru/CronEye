@@ -1,6 +1,6 @@
 import jwt, os
-from datetime import datetime, timedelta
 from flask import current_app
+from datetime import datetime, timedelta
 
 from . import db, bcrypt
 
@@ -105,7 +105,7 @@ class Users(db.Model):
 class Schedulers(db.Model):
     __tablename__ = "schedulers"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    alias = db.Column(db.String, nullable=False)
+    alias = db.Column(db.String, nullable=False, unique=True)
     status = db.Column(db.String, nullable=False, default=True) #active, shutdown, paused
 
     def __init__(self, alias, status):
@@ -115,7 +115,7 @@ class Schedulers(db.Model):
 class Jobs(db.Model):
     __tablename__ = "jobs"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    job_id = db.Column(db.String, nullable=False)
+    job_id = db.Column(db.String, nullable=False, unique=True)
     task = db.Column(db.String, nullable=False)
     is_active = db.Column(db.BOOLEAN, nullable=False, default=True)
     scheduler_id = db.Column(db.Integer, db.ForeignKey("schedulers.id"))

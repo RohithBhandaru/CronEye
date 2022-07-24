@@ -7,8 +7,20 @@ ON CONFLICT (alias)
 """
 
 upsert_job = """
-INSERT INTO jobs (job_id, task)
-    VALUES (%s, %s)
+INSERT INTO jobs (job_id, task, scheduler_id, is_active)
+    VALUES (
+        %s, 
+        %s, 
+        (
+            SELECT 
+                id 
+            FROM 
+                schedulers 
+            WHERE 
+                alias = %s
+        ),
+        %s
+    )
 ON CONFLICT (job_id)
     DO UPDATE SET
         task = EXCLUDED.task
@@ -24,7 +36,7 @@ WHERE
 """
 
 add_job_execution_event = """
-INSERT INTO events (job_id, status, time, return_value, exception, traceback)
+INSERT INTO execution_events (job_id, status, time, return_value, exception, traceback)
     VALUES (
         (
             SELECT
