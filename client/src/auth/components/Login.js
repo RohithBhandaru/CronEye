@@ -72,6 +72,14 @@ const Login = (props) => {
 
     return (
         <div className="auth-main-container">
+            {props.auth.serverMessageType === "failure" && props.auth.serverMessage && (
+                <FlashMessage
+                    flash={flash}
+                    toggleFlash={toggleFlash}
+                    serverMessageType={props.auth.serverMessageType}
+                    serverMessage={props.auth.serverMessage}
+                />
+            )}
             <div className="auth-box-container">
                 <p className="auth-form-title">Login</p>
 
@@ -113,14 +121,9 @@ const Login = (props) => {
                     </div>
                 </form>
             </div>
-            {props.auth.serverMessageType === "failure" && props.auth.serverMessage && (
-                <FlashMessage
-                    flash={flash}
-                    toggleFlash={toggleFlash}
-                    serverMessageType={props.auth.serverMessageType}
-                    serverMessage={props.auth.serverMessage}
-                />
-            )}
+            <div style={{ fontStyle: "italic", marginTop: "10px" }}>
+                * Use the credentials given while setting up APSEye
+            </div>
         </div>
     );
 };

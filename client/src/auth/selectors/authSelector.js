@@ -1,5 +1,5 @@
-const authFormSelector = (state) => {
-    return state.auth.loginForm;
-};
+const authFormSelector = (state) => state.auth.loginForm;
 
-export { authFormSelector };
+const userSelector = (state) => state.auth.user;
+
+export { authFormSelector, userSelector };
