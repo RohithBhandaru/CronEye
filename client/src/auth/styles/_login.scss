@@ -99,3 +99,47 @@
     background-color: rgb(241, 126, 126);
     color: black;
 }
+
+.flash-msg {
+    background-color: $flash-common;
+    border: 1.5px solid $flash-common-border;
+    color: black;
+    margin: 10px 0px;
+    /* padding: 10px; */
+    border-radius: 3px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: fit-content;
+}
+
+.flash-msg__msg {
+    padding: 10px 0px;
+    text-align: center;
+}
+
+.flash-msg-modal-close {
+    font-size: 25px;
+    margin: 0px 10px;
+    cursor: pointer;
+}
+
+.success {
+    background-color: $flash-success;
+    border: 1.5px solid $flash-success-border;
+    padding-left: 10px;
+}
+
+.warning {
+    background-color: $flash-warning;
+    border: 1.5px solid $flash-warning-border;
+    padding-left: 10px;
+}
+
+.failure {
+    background-color: $flash-danger;
+    border: 1.5px solid $flash-danger-border;
+    padding-left: 10px;
+}

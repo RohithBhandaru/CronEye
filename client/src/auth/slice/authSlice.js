@@ -20,7 +20,10 @@ const authSlice = createSlice({
             const { form, name, value } = action.payload;
             state[form][name] = value;
         },
-        updateAuthFormSubmitStatus(state, action) {},
+        clearAuthForm(state, action) {
+            state.loginForm.email = "";
+            state.loginForm.password = "";
+        },
         loginUser(state, action) {
             const { email, authToken } = action.payload;
             state.user.email = email;
@@ -45,5 +48,6 @@ const authSlice = createSlice({
 });
 
 const { actions, reducer } = authSlice;
-export const { updateAuthForm, updateAuthFormSubmitStatus, loginUser, logoutUser, updateServerMessage } = actions;
+export const { updateAuthForm, clearAuthForm, updateAuthFormSubmitStatus, loginUser, logoutUser, updateServerMessage } =
+    actions;
 export default reducer;

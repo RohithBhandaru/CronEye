@@ -1,21 +1,31 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+
+import FlashMessage from "../../common/components/FlashMessage.js";
 
 import EmailIcon from "../../assets/icons/EmailIcon.js";
 import PasswordIcon from "../../assets/icons/PasswordIcon.js";
-import { authFormSelector } from "../selectors/authSelector.js";
 
-import { updateAuthForm } from "../slice/authSlice";
+import { loginUser, updateAuthForm, clearAuthForm, updateServerMessage } from "../slice/authSlice";
 
 import config from "../../config/config.js";
 
-const Login = () => {
+// Accessible part of the state
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
+
+const Login = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [emailEmpty, setEmailEmpty] = useState(false);
     const [passwordEmpty, setPasswordEmpty] = useState(false);
+    const [flash, toggleFlash] = useState(true);
+    console.log(props.auth.serverMessage);
 
-    const formData = useSelector(authFormSelector);
     const dispatch = useDispatch();
     const handleChange = (e) => {
         dispatch(
@@ -29,17 +39,33 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!formData.email || !formData.password) {
-            setEmailEmpty(!formData.email ? true : false);
-            setPasswordEmpty(!formData.password ? true : false);
+        if (!props.auth.loginForm.email || !props.auth.loginForm.password) {
+            setEmailEmpty(!props.auth.loginForm.email ? true : false);
+            setPasswordEmpty(!props.auth.loginForm.password ? true : false);
         } else {
             setIsLoading(true);
             setEmailEmpty(false);
             setPasswordEmpty(false);
             axios
-                .post(`${config.auth_base_url}/login`, { email: formData.email, password: formData.password })
+                .post(`${config.auth_base_url}/login`, {
+                    email: props.auth.loginForm.email,
+                    password: props.auth.loginForm.password,
+                })
                 .then((response) => {
-                    console.log(response.data);
+                    const data = response.data;
+                    console.log(data);
+                    dispatch(loginUser({ email: props.auth.loginForm.email, authToken: data.auth_token }));
+                    dispatch(updateServerMessage({ serverMessageType: data.status, serverMessage: data.message }));
+                    dispatch(clearAuthForm());
+                })
+                .catch((err) => {
+                    toggleFlash(true);
+                    dispatch(
+                        updateServerMessage({
+                            serverMessageType: err.response.data.status,
+                            serverMessage: err.response.data.message,
+                        })
+                    );
                 });
         }
     };
@@ -55,7 +81,14 @@ const Login = () => {
                         <div className="auth-icons">
                             <EmailIcon color={emailEmpty ? "red" : "black"} width={23} height={23} />
                         </div>
-                        <input className="form-input" name="email" type="text" required onChange={handleChange} />
+                        <input
+                            className="form-input"
+                            name="email"
+                            type="text"
+                            value={props.auth.loginForm.email}
+                            required
+                            onChange={handleChange}
+                        />
                     </div>
 
                     <div className="form-field-title-div">
@@ -69,6 +102,7 @@ const Login = () => {
                             className="form-input"
                             name="password"
                             type="password"
+                            value={props.auth.loginForm.password}
                             required
                             onChange={handleChange}
                         />
@@ -79,8 +113,18 @@ const Login = () => {
                     </div>
                 </form>
             </div>
+            {props.auth.serverMessageType === "failure" && props.auth.serverMessage && (
+                <FlashMessage
+                    flash={flash}
+                    toggleFlash={toggleFlash}
+                    serverMessageType={props.auth.serverMessageType}
+                    serverMessage={props.auth.serverMessage}
+                />
+            )}
         </div>
     );
 };
 
-export default Login;
+const ConnectedLogin = connect(mapStateToProps)(Login);
+
+export default ConnectedLogin;
