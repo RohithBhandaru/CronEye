@@ -3,12 +3,14 @@ from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS, cross_origin
 
 from .config import env_mapper
 
 db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
+cors = CORS()
 
 
 def create_app():
@@ -23,6 +25,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
+    cors.init_app(app, supports_credentials=True)
 
     from .auth import auth as auth_blueprint
 
