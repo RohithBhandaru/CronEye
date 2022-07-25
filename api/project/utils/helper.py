@@ -46,3 +46,24 @@ def authenticate_user(f):
         return f(resp, *args, **kwargs)
 
     return decorated_function
+
+
+aps_events_map = {
+    2 ** 0: "EVENT_SCHEDULER_STARTED",
+    2 ** 1: "EVENT_SCHEDULER_SHUTDOWN",
+    2 ** 2: "EVENT_SCHEDULER_PAUSED",
+    2 ** 3: "EVENT_SCHEDULER_RESUMED",
+    2 ** 4: "EVENT_EXECUTOR_ADDED",
+    2 ** 5: "EVENT_EXECUTOR_REMOVED",
+    2 ** 6: "EVENT_JOBSTORE_ADDED",
+    2 ** 7: "EVENT_JOBSTORE_REMOVED",
+    2 ** 8: "EVENT_ALL_JOBS_REMOVED",
+    2 ** 9: "EVENT_JOB_ADDED",
+    2 ** 10: "EVENT_JOB_REMOVED",
+    2 ** 11: "EVENT_JOB_MODIFIED",
+    2 ** 12: "EVENT_JOB_EXECUTED",
+    2 ** 13: "EVENT_JOB_ERROR",
+    2 ** 14: "EVENT_JOB_MISSED",
+    2 ** 15: "EVENT_JOB_SUBMITTED",
+    2 ** 16: "EVENT_JOB_MAX_INSTANCES",
+}

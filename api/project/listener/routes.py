@@ -6,7 +6,7 @@ from datetime import datetime
 from . import listener
 from .queries import upsert_scheduler, upsert_job, update_job_activity, add_job_execution_event, update_job_schedule
 from ..utils.db import DbConnection
-from ..utils.helper import authenticate_listener
+from ..utils.helper import authenticate_listener, aps_events_map
 from ..logs.config import config as logger_config
 from ..utils.enums import HTTPResponseCodes
 from ..logs.logger_templates import (
@@ -60,12 +60,18 @@ def process_event(resp):
         if event_code == events.EVENT_JOB_REMOVED:
             cur.execute(update_job_activity, (False, job_id))
         if event_code == events.EVENT_JOB_SUBMITTED:
-            cur.execute(add_job_execution_event, (job_id, event_code, time, return_value, exception, traceback))
+            cur.execute(
+                add_job_execution_event, (job_id, aps_events_map[event_code], time, return_value, exception, traceback)
+            )
             cur.execute(update_job_schedule, (next_scheduled_run_time, job_id))
         if event_code in (events.EVENT_JOB_EXECUTED, events.EVENT_JOB_ERROR, events.EVENT_JOB_MISSED):
-            cur.execute(add_job_execution_event, (job_id, event_code, time, return_value, exception, traceback))
+            cur.execute(
+                add_job_execution_event, (job_id, aps_events_map[event_code], time, return_value, exception, traceback)
+            )
         if event_code == events.EVENT_JOB_MAX_INSTANCES:
-            cur.execute(add_job_execution_event, (job_id, event_code, time, return_value, exception, traceback))
+            cur.execute(
+                add_job_execution_event, (job_id, aps_events_map[event_code], time, return_value, exception, traceback)
+            )
             cur.execute(update_job_schedule, (next_scheduled_run_time, job_id))
 
         conn.commit()
