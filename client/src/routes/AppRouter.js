@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoadableAuth from "../auth/components/LoadableAuth";
 import HomeLayout from "../common/components/HomeLayout";
 import ProtectedLayout from "../dashboard/components/ProtectedLayout";
+import Analytics from "../dashboard/components/Analytics";
 
 const AppRouter = () => {
     return (
@@ -16,7 +17,7 @@ const AppRouter = () => {
                         <Route index element={<h1>Not Found</h1>} />
                     </Route>
                     <Route path="dashboard" element={<ProtectedLayout />}>
-                        <Route index element={<h1>Dashboard</h1>} />
+                        <Route index element={<Analytics />} />
                     </Route>
                     <Route path="*" element={<h1>Not Found</h1>} />
                 </Route>
