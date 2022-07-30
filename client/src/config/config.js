@@ -1,6 +1,7 @@
 const config = {
-    base_url: "http://127.0.0.1:5000/",
-    auth_base_url: "http://127.0.0.1:5000/api/auth",
+    base_url: "http://0.0.0.0:5001/api",
+    auth_base_url: "http://0.0.0.0:5001/api/auth",
+    dashboard_base_url: "http://0.0.0.0:5001/api/dashboard",
 };
 
 export default config;

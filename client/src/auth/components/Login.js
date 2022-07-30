@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import axios from "axios";
 
 import FlashMessage from "../../common/components/FlashMessage.js";

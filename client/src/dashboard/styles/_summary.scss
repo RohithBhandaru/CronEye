@@ -1,0 +1,32 @@
+.summary-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px;
+}
+
+.card-container {
+    width: 200px;
+    background-color: white;
+    padding: 20px 10px;
+    margin: 0px 10px;
+    border-radius: 10px;
+    border: 0.5px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.card-value {
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
