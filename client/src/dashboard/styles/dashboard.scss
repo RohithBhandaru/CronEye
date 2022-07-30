@@ -8,3 +8,11 @@
     justify-content: flex-start;
     min-height: 100vh;
 }
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: calc(100vh - 70px);
+    background-color: #f8f8f8;
+}

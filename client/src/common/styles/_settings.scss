@@ -32,7 +32,7 @@ html {
 *::-webkit-scrollbar {
     width: 8px;
     height: 5px;
-    background-color: rgb(242, 244, 248);
+    background-color: rgb(248, 248, 248);
 }
 
 *::-webkit-scrollbar-track {
@@ -42,8 +42,8 @@ html {
 
 *::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: $light-orange;
-    border: 2px solid rgb(242, 244, 248);
+    background-color: #7b7a78;
+    border: 0px solid #7b7a78;
 }
 
 *::-webkit-scrollbar-corner {
@@ -56,5 +56,5 @@ a {
 }
 
 body {
-    background-color: #f8f8f8;
+    background-color: $light-orange;
 }
