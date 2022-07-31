@@ -1,3 +1,5 @@
 const summarySelector = (state) => state.dashboard.summary;
 
-export { summarySelector };
+const jobSummarySelector = (state) => state.dashboard.jobs_summary;
+
+export { summarySelector, jobSummarySelector };

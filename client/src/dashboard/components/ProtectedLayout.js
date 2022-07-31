@@ -18,9 +18,7 @@ const ProtectedLayout = ({ children }) => {
     return (
         <div className="dashboard-container">
             <Header />
-            <div className="main-container">
-                <Outlet />
-            </div>
+            <Outlet />
         </div>
     );
 };

@@ -9,6 +9,7 @@ const dashboardSlice = createSlice({
             running_jobs: null,
             overrun_jobs: null,
         },
+        jobs_summary: {}
     },
     reducers: {
         updateSummary(state, action) {
@@ -20,9 +21,12 @@ const dashboardSlice = createSlice({
                 overrun_jobs,
             };
         },
+        updateJobsSummary(state, action) {
+            state.jobs_summary = action.payload
+        }
     },
 });
 
 const { actions, reducer } = dashboardSlice;
-export const { updateSummary } = actions;
+export const { updateSummary, updateJobsSummary } = actions;
 export default reducer;
