@@ -34,18 +34,21 @@ const JobsSummary = () => {
     }, [dispatch, user.authToken]);
 
     useEffect(() => {
-        const svgDimensions = { width: svgContainerRef.current?.clientWidth, height: 350 };
-        const margins = { left: 20, right: 20, top: 20, bottom: 10 };
+        const margins = { left: 20, right: 20, top: 20, bottom: 20 };
+        const jobHeight = 50;
+        const svgDimensions = {
+            width: svgContainerRef.current?.clientWidth,
+            height: jobHeight * summary.jobs.length + margins.bottom + margins.top,
+        };
         const graphDimensions = {
             width: svgDimensions.width - margins.left - margins.right,
             height: svgDimensions.height - margins.top - margins.bottom,
         };
-        const yLabelMargin = 0;
+        const yLabelMargin = 150;
         const xLabelMargin = 50;
-        const jobHeight = 50;
 
         const xScale = d3
-            .scaleTime()
+            .scaleUtc()
             .domain([new Date(summary.time_range.start), new Date(summary.time_range.end)])
             .range([0, graphDimensions.width - yLabelMargin]);
 
@@ -65,6 +68,23 @@ const JobsSummary = () => {
             .classed("x-label", true)
             .attr("transform", `translate(${margins.left - 10}, ${xLabelMargin + 10})`);
 
+        graphContainer
+            .append("g")
+            .attr("class", "x axis")
+            .attr("transform", `translate(0, -15)`)
+            .call(d3.axisTop(xScale).ticks(5).tickFormat(d3.utcFormat("%I:%M %p")))
+            .call((g) => g.select(".domain").remove())
+            .style("font-size", "9px");
+
+        graphContainer
+            .append("g")
+            .attr("class", "y gridlines")
+            .attr("transform", `translate(0, -15)`)
+            .call(d3.axisTop(xScale).ticks(5).tickSize(-graphDimensions.height).tickFormat(""))
+            .call((g) => g.select(".domain").remove())
+            .style("font-size", "9px")
+            .style("stroke-dasharray", "2 10");
+
         for (let i = 0; i < summary.jobs.length; i++) {
             for (let j = 0; j < summary.jobs[i].events.length; j++) {
                 if (summary.jobs[i].events[j].miss_flag) {
@@ -72,7 +92,7 @@ const JobsSummary = () => {
                         .append("circle")
                         .attr("cx", xScale(new Date(summary.jobs[i].events[j].start)))
                         .attr("cy", yScale(summary.jobs.length - i) + 10)
-                        .attr("r", 5)
+                        .attr("r", 7)
                         .attr("fill", "#919191");
                 } else {
                     graphContainer
@@ -105,7 +125,7 @@ const JobsSummary = () => {
                                 .append("circle")
                                 .attr("cx", xScale(new Date(summary.jobs[i].events[j].max_instance_count[k])))
                                 .attr("cy", yScale(summary.jobs.length - i) + 10)
-                                .attr("r", 5)
+                                .attr("r", 7)
                                 .attr("fill", "#ffab4b");
                         }
                     }
