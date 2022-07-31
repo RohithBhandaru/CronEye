@@ -52,14 +52,16 @@ def jobs_summary(resp):
     response = {
         "status": "failure",
         "message": "",
-        "data": {"jobs": []},
+        "data": {"jobs": [], "time_range": {"start": None, "end": None}},
     }
     conn, _ = DbConnection().get_db_connection_instance()
     try:
         start_time = dt.datetime(
-            year=2022, month=7, day=26, hour=0, minute=0, second=0
+            year=2022, month=7, day=26, hour=0, minute=10, second=0
         )  # dt.datetime.utcnow() + dt.timedelta(hours=-6)
-        end_time = dt.datetime.utcnow()
+        end_time = dt.datetime(
+            year=2022, month=7, day=26, hour=0, minute=20, second=0
+        )#dt.datetime.utcnow()
         data = pd.read_sql(job_stats % (start_time, end_time), conn)
         unique_jobs = data["job_id"].unique()
         for job in unique_jobs:
@@ -127,6 +129,7 @@ def jobs_summary(resp):
                 }
             )
 
+        response["data"]["time_range"] = {"start": start_time, "end": end_time}
         response["status"] = "success"
         return jsonify(response), HTTPResponseCodes.SUCCESS.value
     except Exception:
