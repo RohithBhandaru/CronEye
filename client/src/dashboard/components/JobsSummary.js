@@ -34,7 +34,7 @@ const JobsSummary = () => {
     }, [dispatch, user.authToken]);
 
     useEffect(() => {
-        const svgDimensions = { width: svgContainerRef.current?.offsetWidth, height: 350 };
+        const svgDimensions = { width: svgContainerRef.current?.clientWidth, height: 350 };
         const margins = { left: 20, right: 20, top: 20, bottom: 10 };
         const graphDimensions = {
             width: svgDimensions.width - margins.left - margins.right,
@@ -42,13 +42,17 @@ const JobsSummary = () => {
         };
         const yLabelMargin = 0;
         const xLabelMargin = 50;
+        const jobHeight = 50;
 
         const xScale = d3
             .scaleTime()
             .domain([new Date(summary.time_range.start), new Date(summary.time_range.end)])
             .range([0, graphDimensions.width - yLabelMargin]);
 
-        const yScale = d3.scaleLinear().domain([0, summary.jobs.length]).range([graphDimensions.height, 0]);
+        const yScale = d3
+            .scaleLinear()
+            .domain([0, summary.jobs.length])
+            .range([jobHeight * summary.jobs.length, 0]);
 
         const svg = d3.select(svgRef.current).attr("width", svgDimensions.width).attr("height", svgDimensions.height);
         svg.selectAll("*").remove();
@@ -59,7 +63,7 @@ const JobsSummary = () => {
         const yLabelContainer = svg
             .append("g")
             .classed("x-label", true)
-            .attr("transform", `translate(${margins.left}, ${xLabelMargin + 10})`);
+            .attr("transform", `translate(${margins.left - 10}, ${xLabelMargin + 10})`);
 
         for (let i = 0; i < summary.jobs.length; i++) {
             for (let j = 0; j < summary.jobs[i].events.length; j++) {
@@ -117,7 +121,8 @@ const JobsSummary = () => {
     }, [summary]);
 
     return (
-        <div ref={svgContainerRef}>
+        <div ref={svgContainerRef} style={{ margin: "0px 30px 30px 30px" }}>
+            <div className="block-title">Jobs</div>
             <svg ref={svgRef} />
         </div>
     );

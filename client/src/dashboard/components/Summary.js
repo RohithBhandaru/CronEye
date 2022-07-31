@@ -52,10 +52,13 @@ const Summary = () => {
 
     return (
         <div className="summary-container">
-            <SummaryCard name="Scheduler" value={iconMapper(summary.scheduler)} />
-            <SummaryCard name="Total jobs" value={summary.total_jobs} />
-            <SummaryCard name="Active jobs" value={summary.running_jobs} />
-            <SummaryCard name="Overrunning jobs" value={summary.overrun_jobs} />
+            <div className="block-title">Summary</div>
+            <div className="summary-card-container">
+                <SummaryCard name="Scheduler" value={iconMapper(summary.scheduler)} />
+                <SummaryCard name="Total jobs" value={summary.total_jobs} />
+                <SummaryCard name="Active jobs" value={summary.running_jobs} />
+                <SummaryCard name="Overrunning jobs" value={summary.overrun_jobs} />
+            </div>
         </div>
     );
 };

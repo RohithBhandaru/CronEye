@@ -1,9 +1,26 @@
 .summary-container {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 40px 30px;
+}
+
+.block-title {
+    margin-left: 10px;
+    font-style: italic;
+    font-size: 16px;
+    font-weight: 800;
+    color: $brand-blue;
+}
+
+.summary-card-container {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 30px;
+    padding: 10px 0px;
+    width: 100%;
 }
 
 .card-container {
@@ -20,7 +37,7 @@
 }
 
 .card-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
 }
 
