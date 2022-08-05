@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import * as d3 from "d3";
+import moment from "moment";
 
 import config from "../../config/config";
 
@@ -38,7 +39,7 @@ const JobsSummary = () => {
         const jobHeight = 50;
         const svgDimensions = {
             width: svgContainerRef.current?.clientWidth,
-            height: jobHeight * summary.jobs.length + margins.bottom + margins.top,
+            height: jobHeight * summary.jobs?.length + margins.bottom + margins.top,
         };
         const graphDimensions = {
             width: svgDimensions.width - margins.left - margins.right,
@@ -68,13 +69,19 @@ const JobsSummary = () => {
             .classed("x-label", true)
             .attr("transform", `translate(${margins.left - 10}, ${xLabelMargin + 10})`);
 
+        const ttip1 = graphContainer
+            .append("foreignObject")
+            .attr("class", "tooltip")
+            .style("opacity", 0)
+            .style("width", 150);
+
         graphContainer
             .append("g")
             .attr("class", "x axis")
             .attr("transform", `translate(0, -15)`)
             .call(d3.axisTop(xScale).ticks(5).tickFormat(d3.utcFormat("%I:%M %p")))
             .call((g) => g.select(".domain").remove())
-            .style("font-size", "9px");
+            .style("font-size", "12px");
 
         graphContainer
             .append("g")
@@ -82,8 +89,63 @@ const JobsSummary = () => {
             .attr("transform", `translate(0, -15)`)
             .call(d3.axisTop(xScale).ticks(5).tickSize(-graphDimensions.height).tickFormat(""))
             .call((g) => g.select(".domain").remove())
-            .style("font-size", "9px")
             .style("stroke-dasharray", "2 10");
+
+        const handleMouseOver = (payload) => {
+            d3.select("#tooltip-text").remove();
+            const ttip1Div = ttip1
+                .append("xhtml:div")
+                .attr("id", "tooltip-text")
+                .html(
+                    `<div>Duration: ${moment(payload.event.end ? payload.event.end : payload.time_range.end).diff(
+                        moment(payload.event.start ? payload.event.start : payload.time_range.start),
+                        "minutes"
+                    )} min(s)</div>`
+                )
+                .style("font-size", "12px");
+
+            const htmlContentHeight = ttip1Div.node().getBoundingClientRect().height;
+            ttip1.attr("height", htmlContentHeight + 10);
+            const rectDimensions = d3.select(".tooltip").node().getBoundingClientRect();
+
+            let translateX;
+            if (payload.event.start && payload.event.end) {
+                translateX =
+                    (xScale(new Date(payload.event.start)) +
+                        xScale(new Date(payload.event.end)) -
+                        rectDimensions.width) /
+                    2;
+            } else {
+                if (!payload.event.start && payload.event.end) {
+                    translateX =
+                        (xScale(new Date(payload.time_range.start)) +
+                            xScale(new Date(payload.event.end)) -
+                            rectDimensions.width) /
+                        2;
+                } else if (payload.event.start && !payload.event.end) {
+                    translateX =
+                        (xScale(new Date(payload.event.start)) +
+                            xScale(new Date(payload.time_range.end)) -
+                            rectDimensions.width) /
+                        2;
+                } else {
+                    translateX =
+                        (xScale(new Date(payload.time_range.start)) +
+                            xScale(new Date(payload.time_range.end)) -
+                            rectDimensions.width) /
+                        2;
+                }
+            }
+            ttip1.raise();
+            ttip1
+                .transition()
+                .duration(10)
+                .style("opacity", 1)
+                .attr("transform", `translate(${translateX}, ${payload.translateY - rectDimensions.height - 10})`);
+        };
+        const handleMouseOut = () => {
+            ttip1.transition().duration(100).style("opacity", 0);
+        };
 
         for (let i = 0; i < summary.jobs.length; i++) {
             for (let j = 0; j < summary.jobs[i].events.length; j++) {
@@ -93,7 +155,9 @@ const JobsSummary = () => {
                         .attr("cx", xScale(new Date(summary.jobs[i].events[j].start)))
                         .attr("cy", yScale(summary.jobs.length - i) + 10)
                         .attr("r", 7)
-                        .attr("fill", "#919191");
+                        .attr("fill", "#919191")
+                        .attr("class", "graph-event-block")
+                        .attr("id", "missed-event-" + summary.jobs[i].id + j);
                 } else {
                     graphContainer
                         .append("rect")
@@ -117,7 +181,16 @@ const JobsSummary = () => {
                         .attr("fill", summary.jobs[i].events[j].exception ? "#ffc8c8" : "#c8ffcb")
                         .attr("stroke", summary.jobs[i].events[j].exception ? "#fc1b1b" : "#08ac03")
                         .attr("rx", 5)
-                        .attr("ry", 5);
+                        .attr("ry", 5)
+                        .attr("class", "graph-event-block")
+                        .on("mouseover", () =>
+                            handleMouseOver({
+                                event: summary.jobs[i].events[j],
+                                translateY: yScale(summary.jobs.length - i) + 5,
+                                time_range: summary.time_range,
+                            })
+                        )
+                        .on("mouseout", () => handleMouseOut());
 
                     if (summary.jobs[i].events[j].max_instance_count.length > 0) {
                         for (let k = 0; k < summary.jobs[i].events[j].max_instance_count.length; k++) {
@@ -126,7 +199,8 @@ const JobsSummary = () => {
                                 .attr("cx", xScale(new Date(summary.jobs[i].events[j].max_instance_count[k])))
                                 .attr("cy", yScale(summary.jobs.length - i) + 10)
                                 .attr("r", 7)
-                                .attr("fill", "#ffab4b");
+                                .attr("fill", "#ffab4b")
+                                .attr("class", "graph-event-block");
                         }
                     }
                 }
@@ -136,13 +210,69 @@ const JobsSummary = () => {
                 .append("text")
                 .attr("x", xScale(new Date(summary.time_range.start)))
                 .attr("y", yScale(summary.jobs.length - i))
-                .text(summary.jobs[i].name);
+                .text(summary.jobs[i].name)
+                .style("font-size", "12px");
         }
     }, [summary]);
 
     return (
         <div ref={svgContainerRef} style={{ margin: "0px 30px 30px 30px" }}>
             <div className="block-title">Jobs</div>
+            <div className="labels">
+                <div className="label-block">
+                    <div
+                        style={{
+                            height: "20px",
+                            width: "20px",
+                            backgroundColor: "#c8ffcb",
+                            border: "1px solid #08ac03",
+                            borderRadius: "5px",
+                            marginRight: "5px",
+                        }}
+                    />
+                    <div style={{ fontStyle: "italic" }}>Successful run</div>
+                </div>
+
+                <div className="label-block">
+                    <div
+                        style={{
+                            height: "20px",
+                            width: "20px",
+                            backgroundColor: "#ffc8c8",
+                            border: "1px solid #fc1b1b",
+                            borderRadius: "5px",
+                            marginRight: "5px",
+                        }}
+                    />
+                    <div style={{ fontStyle: "italic" }}>Failed run</div>
+                </div>
+
+                <div className="label-block">
+                    <div
+                        style={{
+                            height: "15px",
+                            width: "15px",
+                            backgroundColor: "#ffab4b",
+                            borderRadius: "10px",
+                            marginRight: "5px",
+                        }}
+                    />
+                    <div style={{ fontStyle: "italic" }}>Max. instance breach</div>
+                </div>
+
+                <div className="label-block">
+                    <div
+                        style={{
+                            height: "15px",
+                            width: "15px",
+                            backgroundColor: "#919191",
+                            borderRadius: "10px",
+                            marginRight: "5px",
+                        }}
+                    />
+                    <div style={{ fontStyle: "italic" }}>Missed run</div>
+                </div>
+            </div>
             <svg ref={svgRef} />
         </div>
     );

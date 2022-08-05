@@ -47,3 +47,37 @@
     display: flex;
     align-items: center;
 }
+
+.graph-event-block:hover {
+    cursor: pointer;
+}
+
+.tooltip {
+    background: rgb(49, 54, 57);
+    color: rgb(249, 249, 249);
+    border: 0px;
+    border-radius: 5px;
+    pointer-events: none;
+    font-size: 11px;
+    padding: 5px 5px;
+}
+
+#tooltip-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.labels,
+.label-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 20px;
+}
+
+.labels {
+    margin: 5px 0px 25px 0px;
+}
