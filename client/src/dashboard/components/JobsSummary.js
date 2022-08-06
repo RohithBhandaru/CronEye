@@ -36,7 +36,7 @@ const JobsSummary = () => {
 
     useEffect(() => {
         const margins = { left: 20, right: 20, top: 20, bottom: 20 };
-        const jobHeight = 50;
+        const jobHeight = 60;
         const svgDimensions = {
             width: svgContainerRef.current?.clientWidth,
             height: jobHeight * summary.jobs?.length + margins.bottom + margins.top,
@@ -50,7 +50,7 @@ const JobsSummary = () => {
 
         const xScale = d3
             .scaleUtc()
-            .domain([new Date(summary.time_range.start), new Date(summary.time_range.end)])
+            .domain([moment(summary.time_range.start), moment(summary.time_range.end)])
             .range([0, graphDimensions.width - yLabelMargin]);
 
         const yScale = d3
@@ -79,7 +79,12 @@ const JobsSummary = () => {
             .append("g")
             .attr("class", "x axis")
             .attr("transform", `translate(0, -15)`)
-            .call(d3.axisTop(xScale).ticks(5).tickFormat(d3.utcFormat("%I:%M %p")))
+            .call(
+                d3
+                    .axisTop(xScale)
+                    .ticks(5)
+                    .tickFormat((time) => moment(time).format("h:mm A"))
+            )
             .call((g) => g.select(".domain").remove())
             .style("font-size", "12px");
 
@@ -111,27 +116,25 @@ const JobsSummary = () => {
             let translateX;
             if (payload.event.start && payload.event.end) {
                 translateX =
-                    (xScale(new Date(payload.event.start)) +
-                        xScale(new Date(payload.event.end)) -
-                        rectDimensions.width) /
+                    (xScale(moment(payload.event.start)) + xScale(moment(payload.event.end)) - rectDimensions.width) /
                     2;
             } else {
                 if (!payload.event.start && payload.event.end) {
                     translateX =
-                        (xScale(new Date(payload.time_range.start)) +
-                            xScale(new Date(payload.event.end)) -
+                        (xScale(moment(payload.time_range.start)) +
+                            xScale(moment(payload.event.end)) -
                             rectDimensions.width) /
                         2;
                 } else if (payload.event.start && !payload.event.end) {
                     translateX =
-                        (xScale(new Date(payload.event.start)) +
-                            xScale(new Date(payload.time_range.end)) -
+                        (xScale(moment(payload.event.start)) +
+                            xScale(moment(payload.time_range.end)) -
                             rectDimensions.width) /
                         2;
                 } else {
                     translateX =
-                        (xScale(new Date(payload.time_range.start)) +
-                            xScale(new Date(payload.time_range.end)) -
+                        (xScale(moment(payload.time_range.start)) +
+                            xScale(moment(payload.time_range.end)) -
                             rectDimensions.width) /
                         2;
                 }
@@ -152,7 +155,7 @@ const JobsSummary = () => {
                 if (summary.jobs[i].events[j].miss_flag) {
                     graphContainer
                         .append("circle")
-                        .attr("cx", xScale(new Date(summary.jobs[i].events[j].start)))
+                        .attr("cx", xScale(moment(summary.jobs[i].events[j].start)))
                         .attr("cy", yScale(summary.jobs.length - i) + 10)
                         .attr("r", 7)
                         .attr("fill", "#919191")
@@ -165,17 +168,17 @@ const JobsSummary = () => {
                             "x",
                             xScale(
                                 summary.jobs[i].events[j].start
-                                    ? new Date(summary.jobs[i].events[j].start)
-                                    : new Date(summary.time_range.start)
+                                    ? moment(summary.jobs[i].events[j].start)
+                                    : moment(summary.time_range.start)
                             )
                         )
                         .attr("y", yScale(summary.jobs.length - i))
                         .attr(
                             "width",
                             (summary.jobs[i].events[j].end
-                                ? xScale(new Date(summary.jobs[i].events[j].end))
-                                : xScale(new Date(summary.time_range.end))) -
-                                xScale(new Date(summary.jobs[i].events[j].start))
+                                ? xScale(moment(summary.jobs[i].events[j].end))
+                                : xScale(moment(summary.time_range.end))) -
+                                xScale(moment(summary.jobs[i].events[j].start))
                         )
                         .attr("height", 20)
                         .attr("fill", summary.jobs[i].events[j].exception ? "#ffc8c8" : "#c8ffcb")
@@ -196,7 +199,7 @@ const JobsSummary = () => {
                         for (let k = 0; k < summary.jobs[i].events[j].max_instance_count.length; k++) {
                             graphContainer
                                 .append("circle")
-                                .attr("cx", xScale(new Date(summary.jobs[i].events[j].max_instance_count[k])))
+                                .attr("cx", xScale(moment(summary.jobs[i].events[j].max_instance_count[k])))
                                 .attr("cy", yScale(summary.jobs.length - i) + 10)
                                 .attr("r", 7)
                                 .attr("fill", "#ffab4b")
@@ -208,7 +211,7 @@ const JobsSummary = () => {
 
             yLabelContainer
                 .append("text")
-                .attr("x", xScale(new Date(summary.time_range.start)))
+                .attr("x", xScale(moment(summary.time_range.start)))
                 .attr("y", yScale(summary.jobs.length - i))
                 .text(summary.jobs[i].name)
                 .style("font-size", "12px");
@@ -216,8 +219,8 @@ const JobsSummary = () => {
     }, [summary]);
 
     return (
-        <div ref={svgContainerRef} style={{ margin: "0px 30px 30px 30px" }}>
-            <div className="block-title">Jobs</div>
+        <div ref={svgContainerRef} style={{ margin: "10px 30px 30px 30px" }}>
+            <div className="block-title non-first-block">Jobs</div>
             <div className="labels">
                 <div className="label-block">
                     <div
