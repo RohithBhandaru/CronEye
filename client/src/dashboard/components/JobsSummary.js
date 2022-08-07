@@ -45,7 +45,6 @@ const JobsSummary = () => {
     }, [dispatch, user.authToken]);
 
     useEffect(() => {
-        console.log(summary);
         if (Object.keys(summary).length !== 0) {
             const margins = { left: 20, right: 20, top: 20, bottom: 20 };
             const jobHeight = 60;
