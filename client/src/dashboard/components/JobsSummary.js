@@ -197,8 +197,8 @@ const JobsSummary = () => {
                                     xScale(moment(summary.jobs[i].events[j].start))
                             )
                             .attr("height", 20)
-                            .attr("fill", summary.jobs[i].events[j].exception ? "#ffc8c8" : "#c8ffcb")
-                            .attr("stroke", summary.jobs[i].events[j].exception ? "#fc1b1b" : "#08ac03")
+                            .attr("fill", summary.jobs[i].events[j].exception ? "#f0cccc" : "#ccf0cd")
+                            .attr("stroke", summary.jobs[i].events[j].exception ? "#ff4242" : "#08ac03")
                             .attr("rx", 5)
                             .attr("ry", 5)
                             .attr("class", "graph-event-block")
@@ -244,7 +244,7 @@ const JobsSummary = () => {
                         style={{
                             height: "20px",
                             width: "20px",
-                            backgroundColor: "#c8ffcb",
+                            backgroundColor: "#ccf0cd",
                             border: "1px solid #08ac03",
                             borderRadius: "5px",
                             marginRight: "5px",
@@ -258,8 +258,8 @@ const JobsSummary = () => {
                         style={{
                             height: "20px",
                             width: "20px",
-                            backgroundColor: "#ffc8c8",
-                            border: "1px solid #fc1b1b",
+                            backgroundColor: "#f0cccc",
+                            border: "1px solid #ff4242",
                             borderRadius: "5px",
                             marginRight: "5px",
                         }}

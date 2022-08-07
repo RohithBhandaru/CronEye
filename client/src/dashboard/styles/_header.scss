@@ -4,10 +4,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 0px 45px 0px 35px;
-    background-color: $light-orange;
+    background-color: white;
     width: 100%;
     z-index: 1;
     height: 70px;
+    box-shadow: 0px 5px 5px 0px #dedede;
+    position: sticky;
+    top: 0;
 }
 
 .logo-container {
@@ -39,8 +42,9 @@
 
 .active-option-btn,
 .option-btn:hover {
-    background-color: $brand-yellow;
+    background-color: $brand-blue;
     border-radius: 5px;
+    color: white;
 }
 
 .option-btn:hover {
@@ -48,12 +52,12 @@
 }
 
 .logout-btn {
-    color: red;
+    color: $flash-danger-border;
     cursor: pointer;
 }
 
 .logout-btn:hover {
-    background-color: red;
+    background-color: $flash-danger-border;
     border-radius: 5px;
     transition: 0.3s;
     color: white;

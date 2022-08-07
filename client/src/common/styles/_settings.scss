@@ -1,6 +1,8 @@
 // Colors
-$brand-yellow: #ffab4b;
+$brand-yellow: #fc951e;
 $brand-blue: #0a64a5;
+$brand-red: #ff4d2c;
+$background: #f3f1ef;
 
 $light-orange: #f4f2eb;
 $light-blue: #cbe5fd;
@@ -10,12 +12,12 @@ $light-green: #b7dfbe;
 
 $flash-common: #c8edff;
 $flash-common-border: #03788b;
-$flash-success: #c8ffcb;
+$flash-success: #ccf0cd;
 $flash-success-border: #08ac03;
 $flash-warning: #fffbc8;
 $flash-warning-border: #f3ef0b;
-$flash-danger: #ffc8c8;
-$flash-danger-border: #fc1b1b;
+$flash-danger: #f0cccc;
+$flash-danger-border: #ff4242;
 
 * {
     margin: 0;
@@ -32,7 +34,7 @@ html {
 *::-webkit-scrollbar {
     width: 8px;
     height: 5px;
-    background-color: rgb(248, 248, 248);
+    background-color: white;
 }
 
 *::-webkit-scrollbar-track {
@@ -56,5 +58,5 @@ a {
 }
 
 body {
-    background-color: $light-orange;
+    background-color: white;
 }

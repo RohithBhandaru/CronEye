@@ -29,12 +29,12 @@ const SideNav = () => {
                         ["option-btn", isActive && "active-option-btn"].filter(Boolean).join(" ")
                     }
                 >
-                    Jobs
+                    Logs
                 </NavLink>
                 <div
                     className="option-btn logout-btn"
                     onClick={() => {
-                        localStorage.setItem("authToken", "")
+                        localStorage.setItem("authToken", "");
                         dispatch(logoutUser());
                     }}
                 >
