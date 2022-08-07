@@ -34,6 +34,7 @@ const SideNav = () => {
                 <div
                     className="option-btn logout-btn"
                     onClick={() => {
+                        localStorage.setItem("authToken", "")
                         dispatch(logoutUser());
                     }}
                 >

@@ -6,7 +6,7 @@ const authSlice = createSlice({
         user: {
             email: "",
             isAuthenticated: false,
-            authToken: "",
+            authToken: localStorage.getItem("authToken") ? localStorage.getItem("authToken") : "",
         },
         serverMessageType: "",
         serverMessage: "",

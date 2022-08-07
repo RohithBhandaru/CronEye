@@ -51,6 +51,7 @@ const Login = (props) => {
                 })
                 .then((response) => {
                     const data = response.data;
+                    localStorage.setItem("authToken", data.auth_token);
                     dispatch(loginUser({ email: props.auth.loginForm.email, authToken: data.auth_token }));
                     dispatch(updateServerMessage({ serverMessageType: data.status, serverMessage: data.message }));
                     dispatch(clearAuthForm());
