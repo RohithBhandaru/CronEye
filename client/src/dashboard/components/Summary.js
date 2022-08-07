@@ -13,6 +13,7 @@ import UnknownStatusIcon from "../../assets/icons/UnknownStatusIcon";
 import config from "../../config/config";
 
 import { updateSummary } from "../slice/dashboardSlice";
+import { logoutUser } from "../../auth/slice/authSlice";
 import { summarySelector } from "../selectors/dashboardSelector";
 import { userSelector } from "../../auth/selectors/authSelector";
 
@@ -48,6 +49,15 @@ const Summary = () => {
             .then((response) => {
                 const data = response.data;
                 dispatch(updateSummary(data.data));
+            })
+            .catch((err) => {
+                if (
+                    (err.response.data.status === 400 && err.response.data.message === "Provide a valid auth token") ||
+                    [401, 403].includes(err.response.data.status)
+                ) {
+                    localStorage.setItem("authToken", "");
+                    dispatch(logoutUser());
+                }
             });
     }, [dispatch, user.authToken]);
 
