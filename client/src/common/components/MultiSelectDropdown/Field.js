@@ -1,18 +1,34 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 
 import Dropdown from "./Dropdown";
 
-const Field = ({ name }) => {
+// Accessible part of the state
+const mapStateToProps = (state) => {
+    return {
+        form: state.dashboard.logs_form,
+    };
+};
+
+const Field = (props) => {
     const [modal, toggleModal] = useState(false);
 
     return (
-        <div>
-            <div className="ms-field" onClick={() => toggleModal(true)}>
-                Select {name}
+        <div style={{ position: "relative" }}>
+            <div
+                className={"ms-field" + (props.length === "big" ? " ms-field-big" : "")}
+                onClick={() => toggleModal(true)}
+            >
+                Select {props.name}
             </div>
-            {modal && <Dropdown name={name} toggleModal={toggleModal} />}
+            {modal && <Dropdown name={props.name} toggleModal={toggleModal} length={props.length} />}
+            {props.form[props.name]?.length > 0 && (
+                <div className="ms-selected-pop">{props.form[props.name]?.length}</div>
+            )}
         </div>
     );
 };
 
-export default Field;
+const ConnectedField = connect(mapStateToProps)(Field);
+
+export default ConnectedField;

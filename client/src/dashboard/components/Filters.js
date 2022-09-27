@@ -13,11 +13,11 @@ import { logoutUser } from "../../auth/slice/authSlice";
 // Accessible part of the state
 const mapStateToProps = (state) => {
     return {
-        auth: state.auth,
+        form: state.dashboard.logs_form,
     };
 };
 
-const Filters = () => {
+const Filters = (props) => {
     const dispatch = useDispatch();
 
     const user = useSelector(userSelector);
@@ -44,9 +44,50 @@ const Filters = () => {
             });
     }, [dispatch, user.authToken]);
 
+    const handleSubmit = () => {
+        axios
+            .post(
+                `${config.dashboard_base_url}/logs`,
+                {
+                    filters: {
+                        schedulers: props.form.schedulers,
+                        jobs: props.form.jobs,
+                        events: props.form.events,
+                    },
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.authToken}`,
+                    },
+                }
+            )
+            .then((response) => {
+                const data = response.data;
+                console.log(data);
+                // dispatch(updateLogsFilters(data.data));
+            })
+            .catch((err) => {
+                if (
+                    (err.response.data.status === 400 && err.response.data.message === "Provide a valid auth token") ||
+                    [401, 403].includes(err.response.data.status)
+                ) {
+                    localStorage.setItem("authToken", "");
+                    dispatch(logoutUser());
+                }
+            });
+    };
+
     return (
         <div className="filters-container">
-            <Field name="jobs" />
+            <div className="block-title">History</div>
+            <div className="filter-row flex-row">
+                <Field name="schedulers" length="normal" />
+                <Field name="jobs" length="normal" />
+                <Field name="events" length="big" />
+                <button className="button good-action-btn" onClick={handleSubmit}>
+                    Submit
+                </button>
+            </div>
         </div>
     );
 };

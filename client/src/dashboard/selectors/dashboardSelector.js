@@ -10,6 +10,8 @@ const logsFormSelector = (state) => state.dashboard.logs_form;
 
 const isOptionSelectedSelector = (state, name, value) => state.dashboard.logs_form[name].includes(value);
 
+const selectedOptionsSelector = (state, name) => state.dashboard.logs_form[name];
+
 export {
     summarySelector,
     jobSummarySelector,
@@ -17,4 +19,5 @@ export {
     logsFiltersSelector,
     logsFormSelector,
     isOptionSelectedSelector,
+    selectedOptionsSelector,
 };
