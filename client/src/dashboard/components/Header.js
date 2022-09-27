@@ -16,17 +16,18 @@ const SideNav = () => {
 
             <div className="options-list">
                 <NavLink
-                    to="/dashboard"
+                    to="snapshot"
                     className={({ isActive }) => {
+                        console.log(isActive)
                         return ["option-btn", isActive && "active-option-btn"].filter(Boolean).join(" ");
                     }}
                 >
-                    Dashboard
+                    Snapshot
                 </NavLink>
                 <NavLink
-                    to="/dashbaord/jobs"
-                    className={({ isActive }) =>
-                        ["option-btn", isActive && "active-option-btn"].filter(Boolean).join(" ")
+                    to="logs"
+                    className={({ isActive }) =>{console.log(isActive)
+                        return["option-btn", isActive && "active-option-btn"].filter(Boolean).join(" ")}
                     }
                 >
                     Logs

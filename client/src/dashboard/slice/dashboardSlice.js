@@ -9,7 +9,18 @@ const dashboardSlice = createSlice({
             running_jobs: null,
             overrun_jobs: null,
         },
-        jobs_summary: {}
+        jobs_summary: {},
+        logs: {},
+        logs_filters: {},
+        logs_form: {
+            search: null,
+            schedulers: [],
+            jobs: [],
+            events: [],
+            event_dates: [],
+            page_number: null,
+            page_size: null
+        }
     },
     reducers: {
         updateSummary(state, action) {
@@ -23,10 +34,16 @@ const dashboardSlice = createSlice({
         },
         updateJobsSummary(state, action) {
             state.jobs_summary = action.payload
-        }
+        },
+        updateLogs(state, action) {
+            state.logs = action.payload
+        },
+        updateLogsFilters(state, action) {
+            state.logs_filters = action.payload
+        },
     },
 });
 
 const { actions, reducer } = dashboardSlice;
-export const { updateSummary, updateJobsSummary } = actions;
+export const { updateSummary, updateJobsSummary, updateLogs, updateLogsFilters } = actions;
 export default reducer;

@@ -7,7 +7,7 @@ const HomeLayout = ({ children }) => {
     const user = useSelector(userSelector);
 
     if (user.authToken) {
-        return <Navigate to="/dashboard" />;
+        return <Navigate to="/dashboard/snapshot" />;
     }
 
     return (
