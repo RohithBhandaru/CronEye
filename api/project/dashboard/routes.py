@@ -139,11 +139,7 @@ def jobs_summary(resp):
 @dashboard.route("/logs", methods=["POST"])
 @authenticate_user
 def jobs_logs(resp):
-    response = {
-        "status": "failure",
-        "message": "",
-        "data": [],
-    }
+    response = {"status": "failure", "message": "", "data": [], "meta": {"pagination": {"number": 0, "size": 0}}}
     _, cur = DbConnection().get_db_connection_instance()
     try:
         data = json.loads(request.data)
@@ -211,8 +207,40 @@ def jobs_logs(resp):
             )
 
         response["status"] = "success"
+        response["meta"]["pagination"]["number"] = page_number
+        response["meta"]["pagination"]["size"] = page_size
         return jsonify(response), HTTPResponseCodes.SUCCESS.value
     except Exception:
         internal_server_error_500(logger, "POST", "/api/dashboard/logs", "", {})
+        response["message"] = "Internal server error"
+        return jsonify(response), HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
+
+
+@dashboard.route("/logs/filters", methods=["GET"])
+@authenticate_user
+def jobs_logs_filters(resp):
+    response = {
+        "status": "failure",
+        "message": "",
+        "data": {},
+    }
+    _, cur = DbConnection().get_db_connection_instance()
+    try:
+        cur.execute("SELECT DISTINCT alias FROM schedulers ORDER BY alias ASC")
+        data = cur.fetchall()
+        response["data"]["schedulers"] = [datum[0] for datum in data]
+
+        cur.execute("SELECT DISTINCT task FROM jobs ORDER BY task ASC")
+        data = cur.fetchall()
+        response["data"]["jobs"] = [datum[0] for datum in data]
+
+        cur.execute("SELECT DISTINCT status FROM execution_events ORDER BY status ASC")
+        data = cur.fetchall()
+        response["data"]["events"] = [datum[0] for datum in data]
+
+        response["status"] = "success"
+        return jsonify(response), HTTPResponseCodes.SUCCESS.value
+    except Exception:
+        internal_server_error_500(logger, "POST", "/api/dashboard/logs/filters", "", {})
         response["message"] = "Internal server error"
         return jsonify(response), HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
