@@ -19,8 +19,8 @@ const dashboardSlice = createSlice({
             events: [],
             event_dates: [],
             page_number: null,
-            page_size: null
-        }
+            page_size: null,
+        },
     },
     reducers: {
         updateSummary(state, action) {
@@ -33,17 +33,35 @@ const dashboardSlice = createSlice({
             };
         },
         updateJobsSummary(state, action) {
-            state.jobs_summary = action.payload
+            state.jobs_summary = action.payload;
         },
         updateLogs(state, action) {
-            state.logs = action.payload
+            state.logs = action.payload;
         },
         updateLogsFilters(state, action) {
-            state.logs_filters = action.payload
+            state.logs_filters = action.payload;
+        },
+        updateLogsForm(state, action) {
+            if (action.payload.action) {
+                if (action.payload.action === "add") {
+                    state.logs_form[action.payload.name] = [
+                        ...state.logs_form[action.payload.name],
+                        action.payload.value,
+                    ];
+                    state.logs_form[action.payload.name].sort();
+                } else {
+                    const index = state.logs_form[action.payload.name].indexOf(action.payload.value);
+                    if (index > -1) {
+                        state.logs_form[action.payload.name].splice(index, 1);
+                    }
+                }
+            } else {
+                state.logs_form[action.payload.name] = action.payload.value;
+            }
         },
     },
 });
 
 const { actions, reducer } = dashboardSlice;
-export const { updateSummary, updateJobsSummary, updateLogs, updateLogsFilters } = actions;
+export const { updateSummary, updateJobsSummary, updateLogs, updateLogsFilters, updateLogsForm } = actions;
 export default reducer;

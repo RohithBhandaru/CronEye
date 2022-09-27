@@ -1,0 +1,74 @@
+.filters-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 40px 30px;
+}
+
+.ms-field {
+    width: 150px;
+    padding: 8px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: gray;
+    background-color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.ms-field:hover,
+.ms-field:active {
+    border: 1px solid black;
+}
+
+.cancel-canvas {
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+
+.centered {
+    position: absolute;
+}
+
+.modal {
+    margin-top: 5px;
+    width: 150px;
+    height: 170px;
+    background: white;
+    color: black;
+    z-index: 10;
+    border-radius: 5px;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.ms-option {
+    display: flex;
+    flex-direction: row;
+    margin: 8px 5px;
+}
+
+.ms-option-value {
+    margin-left: 10px;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+input[type="checkbox"]:checked {
+    accent-color: $brand-blue;
+}

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
-import "react-date-range/dist/styles.css"; // main css file
-import "react-date-range/dist/theme/default.css"; // theme css file
+import Field from "../../common/components/MultiSelectDropdown/Field";
 
 import config from "../../config/config";
 
@@ -45,7 +44,11 @@ const Filters = () => {
             });
     }, [dispatch, user.authToken]);
 
-    return <div>;</div>;
+    return (
+        <div className="filters-container">
+            <Field name="jobs" />
+        </div>
+    );
 };
 
 const ConnectedFilters = connect(mapStateToProps)(Filters);
