@@ -2,7 +2,7 @@ import json, logging, pandas as pd, datetime as dt
 from flask import jsonify, request
 
 from . import dashboard
-from .queries import summary_stats, job_stats
+from .queries import summary_stats, job_stats, logs_query
 from ..utils.db import DbConnection
 from ..utils.helper import authenticate_user
 from ..logs.config import config as logger_config
@@ -59,9 +59,7 @@ def jobs_summary(resp):
         start_time = dt.datetime(
             year=2022, month=7, day=26, hour=0, minute=10, second=0
         )  # dt.datetime.utcnow() + dt.timedelta(hours=-6)
-        end_time = dt.datetime(
-            year=2022, month=7, day=26, hour=0, minute=20, second=0
-        )#dt.datetime.utcnow()
+        end_time = dt.datetime(year=2022, month=7, day=26, hour=0, minute=20, second=0)  # dt.datetime.utcnow()
         data = pd.read_sql(job_stats % (start_time, end_time), conn)
         unique_jobs = data["job_id"].unique()
         for job in unique_jobs:
@@ -134,5 +132,87 @@ def jobs_summary(resp):
         return jsonify(response), HTTPResponseCodes.SUCCESS.value
     except Exception:
         internal_server_error_500(logger, "POST", "/api/dashboard/summary/jobs", "", {})
+        response["message"] = "Internal server error"
+        return jsonify(response), HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
+
+
+@dashboard.route("/logs", methods=["POST"])
+@authenticate_user
+def jobs_logs(resp):
+    response = {
+        "status": "failure",
+        "message": "",
+        "data": [],
+    }
+    _, cur = DbConnection().get_db_connection_instance()
+    try:
+        data = json.loads(request.data)
+        search_term = data.get("search")
+        filters = data.get("filters")
+        page_number = data.get("page_number", 1)
+        page_size = data.get("page_size", 20)
+
+        query = logs_query
+        if search_term:
+            query = query.replace("__SEARCH_FILTER__", "AND bb.task ILIKE '%_%'".replace("_", search_term))
+
+        if "schedulers" in filters.keys() and len(filters["schedulers"]) > 0:
+            filter_str = "('" + "','".join(str(filter) for filter in filters["schedulers"]) + "')"
+            query = query.replace("__SCHEDULER_FILTER__", "AND aa.alias IN " + filter_str)
+
+        if "jobs" in filters.keys() and len(filters["jobs"]) > 0:
+            filter_str = "('" + "','".join(str(filter) for filter in filters["jobs"]) + "')"
+            query = query.replace("__JOB_FILTER__", "AND bb.task IN " + filter_str)
+
+        if "events" in filters.keys() and len(filters["events"]) > 0:
+            filter_str = "('" + "','".join(str(filter) for filter in filters["events"]) + "')"
+            query = query.replace("__EVENT_FILTER__", "AND cc.status IN " + filter_str)
+
+        if "event_date" in filters.keys():
+            from_date = (
+                dt.datetime.strptime(filters["event_date"][0], "%Y-%m-%d %H:%M:%S")
+                if len(filters["event_date"]) == 2
+                else dt.datetime.utcnow() + dt.timedelta(hours=5.5) - dt.timedelta(days=100)
+            )
+            to_date = (
+                dt.datetime.strptime(filters["event_date"][1], "%Y-%m-%d %H:%M:%S")
+                if len(filters["event_date"]) == 2
+                else dt.datetime.utcnow() + dt.timedelta(hours=5.5)
+            )
+            filter_str = "('" + "','".join(str(filter for filter in filters["events"])) + "')"
+            query = query.replace(
+                "__EVENT_DATE_FILTER__", "AND cc.time >= '%s' AND cc.time <= '%s'".format(from_date, to_date)
+            )
+
+        query = query.replace("__PAGINATION__", "LIMIT {0} OFFSET {1}".format(page_size, (page_number - 1) * page_size))
+        query = (
+            query.replace("__SEARCH_FILTER__", "")
+            .replace("__SCHEDULER_FILTER__", "")
+            .replace("__JOB_FILTER__", "")
+            .replace("__EVENT_FILTER__", "")
+            .replace("__PAGINATION__", "")
+        )
+
+        cur.execute(query)
+        data = cur.fetchall()
+        for datum in data:
+            response["data"].append(
+                {
+                    "scheduler": {"name": datum[0], "status": datum[1]},
+                    "job": {"id": datum[2], "name": datum[3], "next_scheduled_run": datum[4]},
+                    "event": {
+                        "status": datum[5],
+                        "time": datum[6],
+                        "return_value": datum[7],
+                        "exception": datum[8],
+                        "traceback": datum[9],
+                    },
+                }
+            )
+
+        response["status"] = "success"
+        return jsonify(response), HTTPResponseCodes.SUCCESS.value
+    except Exception:
+        internal_server_error_500(logger, "POST", "/api/dashboard/logs", "", {})
         response["message"] = "Internal server error"
         return jsonify(response), HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
