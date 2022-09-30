@@ -11,7 +11,7 @@ const dashboardSlice = createSlice({
         },
         jobs_summary: {},
         logs: {},
-        logs_filters: {},
+        logs_filters: [],
         logs_form: {
             search: null,
             schedulers: [],

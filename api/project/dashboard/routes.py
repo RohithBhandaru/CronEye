@@ -194,15 +194,16 @@ def jobs_logs(resp):
         for datum in data:
             response["data"].append(
                 {
-                    "scheduler": {"name": datum[0], "status": datum[1]},
-                    "job": {"id": datum[2], "name": datum[3], "next_scheduled_run": datum[4]},
-                    "event": {
-                        "status": datum[5],
-                        "time": datum[6],
-                        "return_value": datum[7],
-                        "exception": datum[8],
-                        "traceback": datum[9],
-                    },
+                    "scheduler_name": datum[0],
+                    "scheduler_status": datum[1],
+                    "job_id": datum[2],
+                    "job_name": datum[3],
+                    "job_next_schedule_run": datum[4],
+                    "event_status": datum[5],
+                    "event_time": datum[6],
+                    "event_return_value": datum[7],
+                    "event_exception": datum[8],
+                    "event_traceback": datum[9],
                 }
             )
 
