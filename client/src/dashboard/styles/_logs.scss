@@ -47,18 +47,27 @@
 
 .table-header {
     border-top: 0.5px solid gray;
+    color: $brand-blue;
+    font-weight: 600;
 }
 
 .column-1 {
     width: 20px;
 }
 
+.column-text {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .column-2,
-.column-3,
-.column-4 {
+.column-3 {
     width: 15%;
 }
 
+.column-4,
 .column-5 {
     width: 20%;
 }
@@ -75,7 +84,7 @@
     transition: min-height 0.3s ease;
     min-height: 0;
     overflow: hidden;
-    background-color: white;
+    background-color: $background;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

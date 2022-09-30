@@ -7,13 +7,25 @@ const LogAccordian = (props) => {
     return (
         <div>
             <div className="accordian-title" onClick={() => setIsActive(!isActive)}>
-                <span className="column-1">{isActive ? "-" : "+"}</span>
-                <div className="column-2">{props.scheduler_name}</div>
-                <div className="column-3">{props.job_name}</div>
-                <div className="column-4">{props.event_status}</div>
-                <div className="column-5">{props.event_time}</div>
-                <div className="column-6">{props.event_return_value}</div>
-                <div className="column-7">{props.event_exception}</div>
+                <div className="column-1">{isActive ? "-" : "+"}</div>
+                <div className="column-2">
+                    <div className="column-text">{props.scheduler_name}</div>
+                </div>
+                <div className="column-3">
+                    <div className="column-text">{props.job_name}</div>
+                </div>
+                <div className="column-4">
+                    <div className="column-text">{props.event_status}</div>
+                </div>
+                <div className="column-5">
+                    <div className="column-text">{props.event_time}</div>
+                </div>
+                <div className="column-6">
+                    <div className="column-text">{props.event_return_value}</div>
+                </div>
+                <div className="column-7">
+                    <div className="column-text">{props.event_exception}</div>
+                </div>
             </div>
             <div
                 className={`accordian-content ${isActive ? "active" : ""}`}
