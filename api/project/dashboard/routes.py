@@ -139,7 +139,12 @@ def jobs_summary(resp):
 @dashboard.route("/logs", methods=["POST"])
 @authenticate_user
 def jobs_logs(resp):
-    response = {"status": "failure", "message": "", "data": [], "meta": {"pagination": {"number": 0, "size": 0}}}
+    response = {
+        "status": "failure",
+        "message": "",
+        "data": [],
+        "meta": {"pagination": {"current_page": 0, "per_page": 0, "total": 0, "total_pages": 0}},
+    }
     _, cur = DbConnection().get_db_connection_instance()
     try:
         data = json.loads(request.data)
@@ -180,6 +185,16 @@ def jobs_logs(resp):
                 "__EVENT_DATE_FILTER__", "AND cc.time >= '%s' AND cc.time <= '%s'".format(from_date, to_date)
             )
 
+        count_query = query.replace("__PAGINATION__", "")
+        count_query = "SELECT COUNT(*) FROM (" + count_query + ") as aa"
+        count_query = (
+            count_query.replace("__SEARCH_FILTER__", "")
+            .replace("__SCHEDULER_FILTER__", "")
+            .replace("__JOB_FILTER__", "")
+            .replace("__EVENT_FILTER__", "")
+            .replace("__PAGINATION__", "")
+        )
+
         query = query.replace("__PAGINATION__", "LIMIT {0} OFFSET {1}".format(page_size, (page_number - 1) * page_size))
         query = (
             query.replace("__SEARCH_FILTER__", "")
@@ -207,9 +222,14 @@ def jobs_logs(resp):
                 }
             )
 
+        cur.execute(count_query)
+        total_count = cur.fetchone()[0]
+
         response["status"] = "success"
-        response["meta"]["pagination"]["number"] = page_number
-        response["meta"]["pagination"]["size"] = page_size
+        response["meta"]["pagination"]["current_page"] = page_number
+        response["meta"]["pagination"]["per_page"] = page_size
+        response["meta"]["pagination"]["total"] = total_count
+        response["meta"]["pagination"]["total_pages"] = int(total_count / page_size) + 1
         return jsonify(response), HTTPResponseCodes.SUCCESS.value
     except Exception:
         internal_server_error_500(logger, "POST", "/api/dashboard/logs", "", {})

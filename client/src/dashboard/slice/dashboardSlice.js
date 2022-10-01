@@ -11,6 +11,7 @@ const dashboardSlice = createSlice({
         },
         jobs_summary: {},
         logs: {},
+        logs_paginator: {},
         logs_filters: [],
         logs_form: {
             search: null,
@@ -38,6 +39,9 @@ const dashboardSlice = createSlice({
         updateLogs(state, action) {
             state.logs = action.payload;
         },
+        updateLogsPaginator(state, action) {
+            state.logs_paginator = action.payload;
+        },
         updateLogsFilters(state, action) {
             state.logs_filters = action.payload;
         },
@@ -63,5 +67,6 @@ const dashboardSlice = createSlice({
 });
 
 const { actions, reducer } = dashboardSlice;
-export const { updateSummary, updateJobsSummary, updateLogs, updateLogsFilters, updateLogsForm } = actions;
+export const { updateSummary, updateJobsSummary, updateLogs, updateLogsPaginator, updateLogsFilters, updateLogsForm } =
+    actions;
 export default reducer;

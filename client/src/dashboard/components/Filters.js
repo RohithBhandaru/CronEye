@@ -7,7 +7,7 @@ import Field from "../../common/components/MultiSelectDropdown/Field";
 import config from "../../config/config";
 
 import { userSelector } from "../../auth/selectors/authSelector";
-import { updateLogs, updateLogsFilters } from "../slice/dashboardSlice";
+import { updateLogs, updateLogsFilters, updateLogsPaginator } from "../slice/dashboardSlice";
 import { logoutUser } from "../../auth/slice/authSlice";
 
 // Accessible part of the state
@@ -62,6 +62,7 @@ const Filters = (props) => {
             .then((response) => {
                 const data = response.data;
                 dispatch(updateLogs(data.data));
+                dispatch(updateLogsPaginator(data.meta.pagination));
             })
             .catch((err) => {
                 if (
@@ -94,6 +95,7 @@ const Filters = (props) => {
             .then((response) => {
                 const data = response.data;
                 dispatch(updateLogs(data.data));
+                dispatch(updateLogsPaginator(data.meta.pagination));
             })
             .catch((err) => {
                 if (

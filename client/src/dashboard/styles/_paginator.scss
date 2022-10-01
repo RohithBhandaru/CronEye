@@ -1,0 +1,46 @@
+.paginator-container {
+    margin: 20px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.paginator-field {
+    padding: 8px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: gray;
+    background-color: white;
+    font-size: 12px;
+    cursor: pointer;
+    margin: 5px 10px;
+    position: relative;
+}
+
+.paginator-field:hover,
+.paginator-field:active {
+    border: 1px solid black;
+}
+
+.paginator-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.paginator-page-size {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 20px;
+}
+
+.paginator-page-number {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
