@@ -6,7 +6,7 @@ const ChevronRightIcon = (props) => (
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         style={{ ...props?.style }}
-        onClick={() => props?.onClick(props?.onClickEvent)}
+        onClick={() => props?.onClick({ event_type: props?.onClickEvent })}
     >
         <g clip-path="url(#clip0_729_480)">
             <path d="M22 16L12 26L10.6 24.6L19.2 16L10.6 7.4L12 6L22 16Z" fill={`${props.color}`} />

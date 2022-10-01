@@ -15,7 +15,6 @@ const mapStateToProps = (state) => {
 };
 
 const LogsList = (props) => {
-    console.log(props.logs.length);
     return (
         <div className="logs-container">
             <div className="table-container">

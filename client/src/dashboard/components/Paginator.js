@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { connect, useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
+import Option from "../../common/components/SingleSelectDropdown/Option";
+
 import { logsFormSelector } from "../selectors/dashboardSelector";
 import { userSelector } from "../../auth/selectors/authSelector";
 import { logoutUser } from "../../auth/slice/authSlice";
@@ -19,23 +21,31 @@ const mapStateToProps = (state) => {
     };
 };
 
+const pageSizeOptions = [10, 20, 50, 100];
+
 const Paginator = (props) => {
-    const [pageNumber, setPageNumber] = useState(props.paginator.current_page);
-    const [perPage, setPerPage] = useState(props.paginator.per_page);
+    const [modal, toggleModal] = useState(false);
 
     const dispatch = useDispatch();
     const logs_form = useSelector(logsFormSelector);
     const user = useSelector(userSelector);
-    console.log(logs_form);
 
-    const handleChange = (event_type) => {
-        let page_number = pageNumber;
-        let page_size = perPage;
+    const handleChange = ({ event_type, event_value }) => {
+        let page_number = props.paginator.current_page;
+        let page_size = props.paginator.per_page;
 
         if (event_type === "next_page") {
+            if (page_number >= props.paginator.total_pages) {
+                return;
+            }
             page_number = page_number + 1;
         } else if (event_type === "previous_page") {
+            if (page_number <= 1) {
+                return;
+            }
             page_number = page_number - 1;
+        } else if (event_type === "page_size_change") {
+            page_size = event_value;
         }
 
         axios
@@ -82,37 +92,58 @@ const Paginator = (props) => {
             <div className="paginator-controls">
                 <div className="paginator-page-size">
                     <div>Size:</div>
-                    <div className="paginator-field">{logs_form.per_page || 20}</div>
+                    <div className="paginator-field" onClick={() => toggleModal(true)}>
+                        {props.paginator.per_page || 20}
+                    </div>
+                    {modal && (
+                        <>
+                            <div className="cancel-canvas" onClick={() => toggleModal(false)}></div>
+                            <div className="centered" onClick={() => toggleModal(false)}>
+                                <div
+                                    className={"modal modal-small"}
+                                    style={{ justifyContent: "space-between", marginTop: "-140px", marginLeft: "25px" }}
+                                >
+                                    {pageSizeOptions.map((value) => {
+                                        return (
+                                            <Option
+                                                value={value}
+                                                onClick={() => {
+                                                    toggleModal();
+                                                    handleChange({
+                                                        event_type: "page_size_change",
+                                                        event_value: value,
+                                                    });
+                                                }}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
+
                 <div className="paginator-page-number">
                     <ChevronLeftIcon
                         width="24"
                         height="24"
-                        color={logs_form.current_page > 1 ? "#0a64a5" : "#5e8cad"}
-                        style={{ cursor: logs_form.current_page > 1 ? "pointer" : "no-drop" }}
+                        color={props.paginator.current_page > 1 ? "#0a64a5" : "#88a4b8"}
+                        style={{ cursor: props.paginator.current_page > 1 ? "pointer" : "no-drop" }}
                         onClick={handleChange}
                         onClickEvent="previous_page"
                     />
-                    <input
-                        type={"text"}
-                        value={pageNumber}
-                        className="paginator-field"
-                        style={{
-                            cursor: logs_form.current_page < logs_form.total_pages ? "pointer" : "no-drop",
-                            width: "50px",
-                            textAlign: "center",
-                        }}
-                        onChange={(e) => {
-                            setPageNumber(Math.max(Math.min(e.target.value, props.paginator?.total_pages), 1));
-                            handleChange();
-                        }}
-                    />
-                    <div style={{ marginRight: "10px" }}>of {logs_form.total_pages || 1}</div>
+
+                    <div style={{ margin: "0px 10px" }}>
+                        {props.paginator.current_page} of {props.paginator.total_pages || 1}
+                    </div>
+
                     <ChevronRightIcon
                         width="24"
                         height="24"
-                        color={logs_form.current_page < logs_form.total_pages ? "#0a64a5" : "#5e8cad"}
-                        style={{ cursor: logs_form.current_page < logs_form.total_pages ? "pointer" : "no-drop" }}
+                        color={props.paginator.current_page < props.paginator.total_pages ? "#0a64a5" : "#88a4b8"}
+                        style={{
+                            cursor: props.paginator.current_page < props.paginator.total_pages ? "pointer" : "no-drop",
+                        }}
                         onClick={handleChange}
                         onClickEvent="next_page"
                     />
@@ -121,6 +152,22 @@ const Paginator = (props) => {
         </div>
     );
 };
+
+// <input
+//     type={"text"}
+//     value={pageNumber}
+//     className="paginator-field"
+//     style={{
+//         cursor: logs_form.current_page < logs_form.total_pages ? "pointer" : "no-drop",
+//         width: "50px",
+//         textAlign: "center",
+//     }}
+//     onChange={(e) => {
+//         setPageNumber(Math.max(Math.min(e.target.value, props.paginator?.total_pages), 1));
+
+//         handleChange();
+//     }}
+// />
 
 const ConnectedPaginator = connect(mapStateToProps)(Paginator);
 
