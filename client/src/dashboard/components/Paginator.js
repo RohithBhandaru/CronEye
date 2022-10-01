@@ -85,8 +85,9 @@ const Paginator = (props) => {
     return (
         <div className="paginator-container">
             <div>
-                Items {(props.paginator.current_page - 1) * props.paginator.per_page} -{" "}
-                {Math.min(props.paginator.total, props.paginator.current_page * props.paginator.per_page)}
+                Items {(props.paginator.current_page - 1) * props.paginator.per_page + 1} -{" "}
+                {Math.min(props.paginator.total, props.paginator.current_page * props.paginator.per_page)} of{" "}
+                {props.paginator.total}
             </div>
 
             <div className="paginator-controls">

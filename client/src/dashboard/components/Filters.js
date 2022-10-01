@@ -14,6 +14,7 @@ import { logoutUser } from "../../auth/slice/authSlice";
 const mapStateToProps = (state) => {
     return {
         form: state.dashboard.logs_form,
+        paginator: state.dashboard.logs_paginator,
     };
 };
 
@@ -52,6 +53,8 @@ const Filters = (props) => {
                         jobs: [],
                         events: [],
                     },
+                    page_number: props.paginator.current_page,
+                    page_size: props.paginator.per_page,
                 },
                 {
                     headers: {
@@ -85,6 +88,8 @@ const Filters = (props) => {
                         jobs: props.form.jobs,
                         events: props.form.events,
                     },
+                    page_number: props.paginator.current_page,
+                    page_size: props.paginator.per_page,
                 },
                 {
                     headers: {
