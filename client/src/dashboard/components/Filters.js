@@ -49,9 +49,9 @@ const Filters = (props) => {
                 `${config.dashboard_base_url}/logs`,
                 {
                     filters: {
-                        schedulers: [],
-                        jobs: [],
-                        events: [],
+                        schedulers: props.form.schedulers,
+                        jobs: props.form.jobs,
+                        events: props.form.events,
                     },
                     page_number: props.paginator.current_page,
                     page_size: props.paginator.per_page,

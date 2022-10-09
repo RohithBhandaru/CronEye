@@ -32,7 +32,7 @@ def summary(resp):
             response["data"]["scheduler"] = "active"
         response["data"]["total_jobs"] = len(data)
         for datum in data:
-            if datum[2] not in ("EVENT_JOB_EXECUTED", "EVENT_JOB_ERROR"):
+            if datum[2] not in ("EVENT_JOB_EXECUTED", "EVENT_JOB_ERROR", "EVENT_JOB_MISSED"):
                 response["data"]["running_jobs"] += 1
             if datum[2] == "EVENT_JOB_MAX_INSTANCES":
                 response["data"]["overrun_jobs"] += 1
