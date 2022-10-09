@@ -197,8 +197,22 @@ const JobsSummary = () => {
                                     xScale(moment(summary.jobs[i].events[j].start))
                             )
                             .attr("height", 20)
-                            .attr("fill", summary.jobs[i].events[j].exception ? "#f0cccc" : "#ccf0cd")
-                            .attr("stroke", summary.jobs[i].events[j].exception ? "#ff4242" : "#08ac03")
+                            .attr(
+                                "fill",
+                                summary.jobs[i].events[j].exception
+                                    ? "#f0cccc"
+                                    : summary.jobs[i].events[j].end
+                                    ? "#ccf0cd"
+                                    : "#cccdf0"
+                            )
+                            .attr(
+                                "stroke",
+                                summary.jobs[i].events[j].exception
+                                    ? "#ff4242"
+                                    : summary.jobs[i].events[j].end
+                                    ? "#08ac03"
+                                    : "#030eac"
+                            )
                             .attr("rx", 5)
                             .attr("ry", 5)
                             .attr("class", "graph-event-block")
@@ -239,6 +253,20 @@ const JobsSummary = () => {
         <div ref={svgContainerRef} style={{ margin: "10px 30px 30px 30px" }}>
             <div className="block-title non-first-block">Jobs</div>
             <div className="labels">
+                <div className="label-block">
+                    <div
+                        style={{
+                            height: "20px",
+                            width: "20px",
+                            backgroundColor: "#cccdf0",
+                            border: "1px solid #030eac",
+                            borderRadius: "5px",
+                            marginRight: "5px",
+                        }}
+                    />
+                    <div style={{ fontStyle: "italic" }}>Running</div>
+                </div>
+
                 <div className="label-block">
                     <div
                         style={{
