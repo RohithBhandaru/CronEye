@@ -12,7 +12,7 @@ class BaseConfig:
 
     FLASK_ENV = os.environ.get("FLASK_ENV", "qa")
     JSON_SORT_KEYS = False
-    SECRET_KEY = os.environ.get("SECRET_KEY", "apseye-s3cret-Key")
+    SECRET_KEY = os.environ.get("SECRET_KEY", "cr0neye-s3cret-Key")
 
     TOKEN_EXPIRY_DAYS = 5
     TOKEN_EXPIRY_SECONDS = 0

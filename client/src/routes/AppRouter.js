@@ -6,6 +6,7 @@ import HomeLayout from "../common/components/HomeLayout";
 import ProtectedLayout from "../dashboard/components/ProtectedLayout";
 import Analytics from "../dashboard/components/AnalyticsScreen";
 import Logs from "../dashboard/components/LogsScreen";
+import Settings from "../dashboard/components/SettingsScreen";
 
 const AppRouter = () => {
     return (
@@ -20,6 +21,9 @@ const AppRouter = () => {
                     <Route path="dashboard" element={<ProtectedLayout />}>
                         <Route path="logs" element={<Logs />} />
                         <Route path="snapshot" element={<Analytics />} />
+                    </Route>
+                    <Route path="settings" element={<ProtectedLayout />}>
+                        <Route index element={<Settings />} />
                     </Route>
                     <Route path="*" element={<h1>Not Found</h1>} />
                 </Route>

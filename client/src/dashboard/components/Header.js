@@ -16,7 +16,7 @@ const SideNav = () => {
 
             <div className="options-list">
                 <NavLink
-                    to="snapshot"
+                    to="/dashboard/snapshot"
                     className={({ isActive }) => {
                         return ["option-btn", isActive && "active-option-btn"].filter(Boolean).join(" ");
                     }}
@@ -24,12 +24,20 @@ const SideNav = () => {
                     Snapshot
                 </NavLink>
                 <NavLink
-                    to="logs"
+                    to="/dashboard/logs"
                     className={({ isActive }) => {
                         return ["option-btn", isActive && "active-option-btn"].filter(Boolean).join(" ");
                     }}
                 >
                     Logs
+                </NavLink>
+                <NavLink
+                    to="/settings"
+                    className={({ isActive }) => {
+                        return ["option-btn", isActive && "active-option-btn"].filter(Boolean).join(" ");
+                    }}
+                >
+                    Settings
                 </NavLink>
                 <div
                     className="option-btn logout-btn"

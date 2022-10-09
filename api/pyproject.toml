@@ -1,5 +1,5 @@
 [project]
-name = "APSEye"
+name = "CronEye"
 description = "Dashboard for managing APScheduler events"
 
 [tool.black]
