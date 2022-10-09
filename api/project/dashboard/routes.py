@@ -91,6 +91,8 @@ def jobs_summary(resp):
                             events[current_event_idx]["end"] = datum["time"]
                             events[current_event_idx]["return_value"] = datum["return_value"]
                             events[current_event_idx]["exception"] = datum["exception"]
+                            if datum["status"] == "EVENT_JOB_ERROR":
+                                events[current_event_idx]["exception"] = datum["exception"] or "Not captured"
                             events[current_event_idx]["traceback"] = datum["traceback"]
                         else:
                             events[current_event_idx]["max_instance_count"].append(datum["time"])
@@ -101,7 +103,9 @@ def jobs_summary(resp):
                                 "start": None,
                                 "end": datum["time"] if datum["status"] != "EVENT_JOB_MAX_INSTANCES" else None,
                                 "return_value": datum["return_value"],
-                                "exception": datum["exception"],
+                                "exception": datum["exception"] or "Not captured"
+                                if datum["status"] == "EVENT_JOB_ERROR"
+                                else datum["exception"],
                                 "traceback": datum["traceback"],
                                 "miss_flag": False,
                                 "max_instance_count": [datum["time"]],
