@@ -56,10 +56,14 @@ def jobs_summary(resp):
     }
     conn, _ = DbConnection().get_db_connection_instance()
     try:
-        start_time = dt.datetime(
-            year=2022, month=7, day=26, hour=0, minute=10, second=0
+        start_time = int(
+            dt.datetime(year=2022, month=7, day=25, hour=18, minute=40, second=0, tzinfo=dt.timezone.utc).timestamp()
+            * 1000
         )  # dt.datetime.utcnow() + dt.timedelta(hours=-6)
-        end_time = dt.datetime(year=2022, month=7, day=26, hour=0, minute=20, second=0)  # dt.datetime.utcnow()
+        end_time = int(
+            dt.datetime(year=2022, month=7, day=25, hour=18, minute=50, second=0, tzinfo=dt.timezone.utc).timestamp()
+            * 1000
+        )  # dt.datetime.utcnow()
         data = pd.read_sql(job_stats % (start_time, end_time), conn)
         unique_jobs = data["job_id"].unique()
         for job in unique_jobs:

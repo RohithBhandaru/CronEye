@@ -1,7 +1,6 @@
 import json, logging
 from flask import jsonify, request
 from apscheduler import events
-from datetime import datetime
 
 from . import listener
 from .queries import upsert_scheduler, upsert_job, update_job_activity, add_job_execution_event, update_job_schedule
@@ -45,7 +44,7 @@ def process_event(resp):
         exception = data.get("exception")
         traceback = data.get("traceback")
         next_scheduled_run_time = data.get("next_scheduled_run_time")
-        time = datetime.strptime(data.get("time"), "%d-%m-%Y %H:%M:%S")
+        time = data.get("time")
 
         if event_code == events.EVENT_SCHEDULER_STARTED:
             cur.execute(upsert_scheduler, (alias, "active"))

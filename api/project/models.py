@@ -1,6 +1,7 @@
-import jwt, os
+import jwt, os, datetime as dt
 from flask import current_app
-from datetime import datetime, timedelta
+from datetime import timedelta
+from sqlalchemy.dialects.postgresql import BIGINT
 
 from . import db, bcrypt
 
@@ -25,7 +26,9 @@ class Users(db.Model):
     first_name = db.Column(db.String(128), nullable=True)
     last_name = db.Column(db.String(128), nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
-    created_date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+    created_date = db.Column(
+        BIGINT, default=int(dt.datetime.now(tz=dt.timezone.utc).timestamp() * 1000), nullable=False
+    )
     group_id = db.Column(db.Integer, db.ForeignKey("user_groups.id"))
     group = db.relationship("UserGroups", backref=db.backref("user_groups", uselist=True))
     token = db.Column(db.String, nullable=True)
@@ -60,12 +63,12 @@ class Users(db.Model):
     def encode_auth_token(self, user_id):
         try:
             payload = {
-                "exp": datetime.utcnow()
-                + timedelta(
+                "exp": dt.datetime.now(tz=dt.timezone.utc)
+                + dt.timedelta(
                     days=current_app.config.get("TOKEN_EXPIRY_DAYS"),
                     seconds=current_app.config.get("TOKEN_EXPIRY_SECONDS"),
                 ),
-                "iat": datetime.utcnow(),
+                "iat": dt.datetime.now(tz=dt.timezone.utc),
                 "id": user_id,
             }
 
@@ -106,11 +109,12 @@ class Schedulers(db.Model):
     __tablename__ = "schedulers"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     alias = db.Column(db.String, nullable=False, unique=True)
-    status = db.Column(db.String, nullable=False, default=True) #active, shutdown, paused
+    status = db.Column(db.String, nullable=False, default=True)  # active, shutdown, paused
 
     def __init__(self, alias, status):
         self.alias = alias
         self.status = status
+
 
 class Jobs(db.Model):
     __tablename__ = "jobs"
@@ -120,7 +124,7 @@ class Jobs(db.Model):
     is_active = db.Column(db.BOOLEAN, nullable=False, default=True)
     scheduler_id = db.Column(db.Integer, db.ForeignKey("schedulers.id"))
     scheduler = db.relationship("Schedulers", backref=db.backref("jobs", uselist=True))
-    next_scheduled_run = db.Column(db.DateTime, default=datetime.now)
+    next_scheduled_run = db.Column(BIGINT, nullable=True)
 
     def __init__(self, job_id, task, scheduler_id, is_active=True):
         self.job_id = job_id
@@ -135,7 +139,7 @@ class ExecutionEvents(db.Model):
     job_id = db.Column(db.Integer, db.ForeignKey("jobs.id"))
     job = db.relationship("Jobs", backref=db.backref("execution_events", uselist=True))
     status = db.Column(db.String, nullable=False)
-    time = db.Column(db.DateTime, default=datetime.now)
+    time = db.Column(BIGINT, default=int(dt.datetime.now(tz=dt.timezone.utc).timestamp() * 1000))
     return_value = db.Column(db.Text, nullable=True)
     exception = db.Column(db.String, nullable=True)
     traceback = db.Column(db.Text, nullable=True)

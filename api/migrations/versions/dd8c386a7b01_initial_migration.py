@@ -1,8 +1,8 @@
-"""Initial migration
+"""initial migration
 
-Revision ID: 1dfc9a4dadb8
+Revision ID: dd8c386a7b01
 Revises: 
-Create Date: 2022-07-24 19:39:42.127811
+Create Date: 2022-10-09 17:32:27.822695
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1dfc9a4dadb8'
+revision = 'dd8c386a7b01'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -37,7 +37,7 @@ def upgrade():
     sa.Column('task', sa.String(), nullable=False),
     sa.Column('is_active', sa.BOOLEAN(), nullable=False),
     sa.Column('scheduler_id', sa.Integer(), nullable=True),
-    sa.Column('next_scheduled_run', sa.DateTime(), nullable=True),
+    sa.Column('next_scheduled_run', sa.BIGINT(), nullable=True),
     sa.ForeignKeyConstraint(['scheduler_id'], ['schedulers.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('job_id')
@@ -50,7 +50,7 @@ def upgrade():
     sa.Column('first_name', sa.String(length=128), nullable=True),
     sa.Column('last_name', sa.String(length=128), nullable=True),
     sa.Column('active', sa.Boolean(), nullable=False),
-    sa.Column('created_date', sa.DateTime(), nullable=False),
+    sa.Column('created_date', sa.BIGINT(), nullable=False),
     sa.Column('group_id', sa.Integer(), nullable=True),
     sa.Column('token', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['group_id'], ['user_groups.id'], ),
@@ -62,7 +62,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('job_id', sa.Integer(), nullable=True),
     sa.Column('status', sa.String(), nullable=False),
-    sa.Column('time', sa.DateTime(), nullable=True),
+    sa.Column('time', sa.BIGINT(), nullable=True),
     sa.Column('return_value', sa.Text(), nullable=True),
     sa.Column('exception', sa.String(), nullable=True),
     sa.Column('traceback', sa.Text(), nullable=True),
