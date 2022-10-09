@@ -100,11 +100,11 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: stretch;
+    // align-items: flex-start;
 }
 
 .accordian-content.active {
-    padding: 20px 40px;
+    padding: 10px 40px 20px 40px;
 }
 
 .accordian-content-block {
@@ -129,7 +129,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     font-size: 12px;
-    margin: 5px 0px;
+    margin: 8px 0px;
 }
 
 .accordian-content-key {

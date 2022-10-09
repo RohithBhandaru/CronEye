@@ -7,7 +7,7 @@ const NoDataIllustration = (props) => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
         >
-            <g clip-path="url(#clip0_1103_470)">
+            <g clipPath="url(#clip0_1103_470)">
                 <path
                     d="M116.05 300C180.143 300 232.1 291.228 232.1 280.408C232.1 269.587 180.143 260.815 116.05 260.815C51.9574 260.815 0 269.587 0 280.408C0 291.228 51.9574 300 116.05 300Z"
                     fill="#3F3D56"

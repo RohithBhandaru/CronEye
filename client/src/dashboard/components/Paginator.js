@@ -115,6 +115,7 @@ const Paginator = (props) => {
                                                         event_value: value,
                                                     });
                                                 }}
+                                                key={value}
                                             />
                                         );
                                     })}
