@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import moment from "moment";
 
 const LogAccordian = (props) => {
     const [isActive, setIsActive] = useState(false);
@@ -18,7 +19,7 @@ const LogAccordian = (props) => {
                     <div className="column-text">{props.event_status}</div>
                 </div>
                 <div className="column-5">
-                    <div className="column-text">{props.event_time}</div>
+                    <div className="column-text">{moment(props.event_time).format("HH:mm:ss A - MMM Do YYYY")}</div>
                 </div>
                 <div className="column-6">
                     <div className="column-text">{props.event_return_value}</div>
@@ -54,7 +55,7 @@ const LogAccordian = (props) => {
                 </div>
                 <div className="accordian-content-item">
                     <div className="accordian-content-key">Time:</div>
-                    <div className="accordian-content-value">{props.event_time}</div>
+                    <div className="accordian-content-value">{moment(props.event_time).format("HH:mm:ss A - MMM Do YYYY")}</div>
                 </div>
                 <div className="accordian-content-item">
                     <div className="accordian-content-key">Output:</div>
