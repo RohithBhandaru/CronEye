@@ -85,14 +85,14 @@ const Paginator = (props) => {
     return (
         <div className="paginator-container">
             <div>
-                Items {(props.paginator.current_page - 1) * props.paginator.per_page + 1} -{" "}
+                Showing {(props.paginator.current_page - 1) * props.paginator.per_page + 1} -{" "}
                 {Math.min(props.paginator.total, props.paginator.current_page * props.paginator.per_page)} of{" "}
-                {props.paginator.total}
+                {props.paginator.total} items
             </div>
 
             <div className="paginator-controls">
                 <div className="paginator-page-size">
-                    <div>Size:</div>
+                    <div>Items per page:</div>
                     <div className="paginator-field" onClick={() => toggleModal(true)}>
                         {props.paginator.per_page || 20}
                     </div>
@@ -102,7 +102,7 @@ const Paginator = (props) => {
                             <div className="centered" onClick={() => toggleModal(false)}>
                                 <div
                                     className={"modal modal-small"}
-                                    style={{ justifyContent: "space-between", marginTop: "-140px", marginLeft: "25px" }}
+                                    style={{ justifyContent: "space-between", marginTop: "-140px", marginLeft: "83px" }}
                                 >
                                     {pageSizeOptions.map((value) => {
                                         return (
@@ -135,7 +135,7 @@ const Paginator = (props) => {
                     />
 
                     <div style={{ margin: "0px 10px" }}>
-                        {props.paginator.current_page} of {props.paginator.total_pages || 1}
+                        Page {props.paginator.current_page} of {props.paginator.total_pages || 1}
                     </div>
 
                     <ChevronRightIcon

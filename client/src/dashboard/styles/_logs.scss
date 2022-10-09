@@ -39,16 +39,22 @@
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    border-bottom: 0.5px solid gray;
     padding: 10px;
     font-size: 14px;
     background-color: white;
+    cursor: pointer;
+}
+
+.accordian-container,
+.table-header {
+    border-bottom: 2px solid #f0f1f5;
 }
 
 .table-header {
-    border-top: 0.5px solid gray;
     color: $brand-blue;
     font-weight: 600;
+    border-radius: 10px 10px 0px 0px;
+    background-color: #f9fbfc;
 }
 
 .column-1 {
@@ -80,19 +86,41 @@
     width: 25%;
 }
 
+.event-tag {
+    padding: 4px 6px;
+    border-radius: 5px;
+    width: fit-content;
+}
+
 .accordian-content {
     transition: min-height 0.3s ease;
     min-height: 0;
     overflow: hidden;
-    background-color: $background;
+    background-color: white;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
     justify-content: flex-start;
+    align-items: stretch;
 }
 
 .accordian-content.active {
     padding: 20px 40px;
+}
+
+.accordian-content-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.accordian-content-sub-block {
+    padding: 10px 20px;
+    margin: 10px;
+    border: 1px solid #f0f1f5;
+    border-radius: 10px;
+    min-height: -webkit-fill-available;
+    min-height: -moz-fill-available;
+    min-height: fill-available;
+    background-color: #f0f1f5;
 }
 
 .accordian-content-item {
@@ -107,7 +135,7 @@
 .accordian-content-key {
     font-weight: 400;
     font-style: italic;
-    width: 150px;
+    width: 120px;
 }
 
 .accordian-content-value {
