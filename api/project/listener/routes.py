@@ -77,6 +77,7 @@ def process_event(resp):
         response["status"] = "success"
         return jsonify(response), HTTPResponseCodes.SUCCESS.value
     except Exception:
+        conn.rollback()
         internal_server_error_500(logger, "POST", "/api/listener/event", "", {})
         response["message"] = "Internal server error"
         return jsonify(response), HTTPResponseCodes.INTERNAL_SERVER_ERROR.value

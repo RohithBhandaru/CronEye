@@ -1,5 +1,6 @@
 import json, logging, pandas as pd, datetime as dt
 from flask import jsonify, request
+from flask_restful import Api, Resource
 
 from . import dashboard
 from .queries import summary_stats, job_stats, logs_query
@@ -11,6 +12,8 @@ from ..logs.logger_templates import info_log, internal_server_error_500
 
 logging.config.dictConfig(logger_config)
 logger = logging.getLogger(__name__)
+
+api = Api(dashboard)
 
 
 @dashboard.route("/summary", methods=["POST"])
@@ -273,3 +276,81 @@ def jobs_logs_filters(resp):
         internal_server_error_500(logger, "POST", "/api/dashboard/logs/filters", "", {})
         response["message"] = "Internal server error"
         return jsonify(response), HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
+
+
+class Settings(Resource):
+    method_decorators = [authenticate_user]
+
+    def get(self, resp):
+        response = {
+            "status": "failure",
+            "message": "",
+            "data": {},
+        }
+        _, cur = DbConnection().get_db_connection_instance()
+
+        try:
+            cur.execute("SELECT * FROM settings")
+            data = cur.fetchone()
+            if data:
+                response["data"] = {"id": data[0], "project_name": data[1]}
+            else:
+                response["data"] = {"id": None, "project_name": None}
+
+            response["status"] = "success"
+            return response, HTTPResponseCodes.SUCCESS.value
+        except Exception:
+            internal_server_error_500(logger, "GET", "/api/dashboard/settings", "", {})
+            response["message"] = "Internal server error"
+            return response, HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
+
+    def patch(self, resp):
+        response = {
+            "status": "failure",
+            "message": "",
+            "data": {},
+        }
+        conn, cur = DbConnection().get_db_connection_instance()
+
+        try:
+            data = json.loads(request.data)
+
+            cur.execute("UPDATE settings SET project_name=%s WHERE id=%s", (data.get("project_name"), data.get("id")))
+            conn.commit()
+
+            response["message"] = "Updated settings"
+            response["status"] = "success"
+            return response, HTTPResponseCodes.SUCCESS.value
+        except Exception:
+            conn.rollback()
+            internal_server_error_500(logger, "PATCH", "/api/dashboard/settings", "", {})
+            response["message"] = "Internal server error"
+            return response, HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
+
+    def post(self, resp):
+        response = {
+            "status": "failure",
+            "message": "",
+            "data": {},
+        }
+        conn, cur = DbConnection().get_db_connection_instance()
+
+        try:
+            data = json.loads(request.data)
+
+            cur.execute("INSERT INTO settings (project_name) VALUES (%s) RETURNING id;", (data.get("project_name")))
+            data = cur.fetchone()[0]
+            conn.commit()
+
+            response["data"]["id"] = data
+            response["message"] = "Added settings"
+            response["status"] = "success"
+            return response, HTTPResponseCodes.SUCCESS.value
+        except Exception:
+            conn.rollback()
+            internal_server_error_500(logger, "GET", "/api/dashboard/settings", "", {})
+            response["message"] = "Internal server error"
+            return response, HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
+
+
+api.add_resource(Settings, "/settings")
