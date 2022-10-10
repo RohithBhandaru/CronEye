@@ -1,8 +1,8 @@
 import json, logging, logging.config
-from flask import jsonify, request, current_app
+from flask import jsonify, request
+from werkzeug.security import check_password_hash
 
 from . import auth
-from .. import bcrypt
 from ..models import Users
 from ..logs.config import config as logger_config
 from ..utils.enums import HTTPResponseCodes
@@ -35,7 +35,7 @@ def user_login():
     try:
         user = Users.query.filter_by(email=email).first()
         if user:
-            if bcrypt.check_password_hash(user.password, password):
+            if check_password_hash(user.password, password):
                 auth_token = user.encode_auth_token(user.id)
                 if auth_token:
                     response_obj["status"] = "success"

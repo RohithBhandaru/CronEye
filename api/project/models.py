@@ -1,9 +1,16 @@
 import jwt, os, datetime as dt
 from flask import current_app
-from datetime import timedelta
 from sqlalchemy.dialects.postgresql import BIGINT
+from werkzeug.security import generate_password_hash
 
-from . import db, bcrypt
+from . import db
+
+
+class Settings(db.Model):
+    __tablename__ = "settings"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    project_name = db.Column(db.String, unique=True, nullable=True)
 
 
 class UserGroups(db.Model):
@@ -44,7 +51,7 @@ class Users(db.Model):
     ):
         self.username = username
         self.email = email
-        self.password = bcrypt.generate_password_hash(password, current_app.config.get("BCRYPT_LOG_ROUNDS")).decode()
+        self.password = generate_password_hash(password)
         self.first_name = first_name
         self.last_name = last_name
         self.group_id = group_id

@@ -32,8 +32,6 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
     TESTING = False
 
-    BCRYPT_LOG_ROUNDS = 4
-
     ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")
     ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
     ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
@@ -51,8 +49,6 @@ class QaConfig(BaseConfig):
 
     DEBUG = True
     TESTING = True
-
-    BCRYPT_LOG_ROUNDS = 10
 
     DATABASE_HOST = os.environ.get("DATABASE_HOST", "")
     DATABASE_NAME = os.environ.get("DATABASE_NAME", "")
