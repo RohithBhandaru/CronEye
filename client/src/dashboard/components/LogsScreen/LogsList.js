@@ -19,7 +19,7 @@ const LogsList = (props) => {
         <div className="logs-container">
             <div className="table-container">
                 <LogHeader />
-                {props.logs?.length > 1 ? (
+                {props.logs?.length > 0 ? (
                     props.logs.map((log, idx) => <LogAccordian {...log} key={idx} />)
                 ) : (
                     <div

@@ -15,11 +15,6 @@ const EditIcon = (props) => (
                 fill={`${props.color}`}
             />
         </g>
-        <defs>
-            <clipPath id="clip0_754_474">
-                <rect width="32" height="32" fill="white" />
-            </clipPath>
-        </defs>
     </svg>
 );
 
