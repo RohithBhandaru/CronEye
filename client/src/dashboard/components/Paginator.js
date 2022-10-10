@@ -9,7 +9,7 @@ import { userSelector } from "../../auth/selectors/authSelector";
 import { logoutUser } from "../../auth/slice/authSlice";
 import { updateLogs, updateLogsPaginator } from "../slice/dashboardSlice";
 
-import config from "../../config/config";
+import {config} from "../../config/config";
 
 import ChevronLeftIcon from "../../assets/icons/ChevronLeftIcon";
 import ChevronRightIcon from "../../assets/icons/ChevronRightIcon";

@@ -4,7 +4,7 @@ import axios from "axios";
 import * as d3 from "d3";
 import moment from "moment";
 
-import config from "../../config/config";
+import {config} from "../../config/config";
 
 import { userSelector } from "../../auth/selectors/authSelector";
 import { jobSummarySelector } from "../selectors/dashboardSelector";

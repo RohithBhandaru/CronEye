@@ -10,7 +10,7 @@ import ErrorStatusIcon from "../../assets/icons/ErrorStatusIcon";
 import PausedStatusIcon from "../../assets/icons/PausedStatusIcon";
 import UnknownStatusIcon from "../../assets/icons/UnknownStatusIcon";
 
-import config from "../../config/config";
+import {config} from "../../config/config";
 
 import { updateSummary } from "../slice/dashboardSlice";
 import { logoutUser } from "../../auth/slice/authSlice";

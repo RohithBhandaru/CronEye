@@ -9,7 +9,7 @@ import PasswordIcon from "../../assets/icons/PasswordIcon.js";
 
 import { loginUser, updateAuthForm, clearAuthForm, updateServerMessage } from "../slice/authSlice";
 
-import config from "../../config/config.js";
+import {config} from "../../config/config.js";
 
 // Accessible part of the state
 const mapStateToProps = (state) => {

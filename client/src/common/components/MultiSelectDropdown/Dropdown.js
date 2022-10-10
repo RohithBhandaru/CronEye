@@ -5,6 +5,8 @@ import Option from "./Option";
 
 import { logsFiltersSelector } from "../../../dashboard/selectors/dashboardSelector";
 
+import { event_name_map } from "../../../config/config";
+
 const Dropdown = ({ name, toggleModal, length }) => {
     const filters = useSelector((state) => logsFiltersSelector(state, name));
 
@@ -14,7 +16,7 @@ const Dropdown = ({ name, toggleModal, length }) => {
             <div className="centered">
                 <div className={"modal" + (length === "big" ? " modal-big" : "")}>
                     {filters.map((filter) => (
-                        <Option name={name} value={filter} key={filter} length={length} />
+                        <Option name={name} value={name === "events"?event_name_map[filter].name: filter} key={filter} length={length} />
                     ))}
                 </div>
             </div>

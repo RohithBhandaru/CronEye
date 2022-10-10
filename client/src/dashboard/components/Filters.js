@@ -4,7 +4,7 @@ import axios from "axios";
 
 import Field from "../../common/components/MultiSelectDropdown/Field";
 
-import config from "../../config/config";
+import {config} from "../../config/config";
 
 import { userSelector } from "../../auth/selectors/authSelector";
 import { updateLogs, updateLogsFilters, updateLogsPaginator } from "../slice/dashboardSlice";

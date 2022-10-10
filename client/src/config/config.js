@@ -20,4 +20,92 @@ const config = {
     },
 };
 
-export default config;
+const event_name_map = {
+    EVENT_SCHEDULER_STARTED: {
+        name: "Scheduler started",
+        background_color: config.colors.success_light,
+        border_color: config.colors.success_thick,
+    },
+    EVENT_SCHEDULER_SHUTDOWN: {
+        name: "Scheduler shutdown",
+        background_color: config.colors.failure_light,
+        border_color: config.colors.failure_thick,
+    },
+    EVENT_SCHEDULER_PAUSED: {
+        name: "Scheduler paused",
+        background_color: config.colors.warning_light,
+        border_color: config.colors.warning_thick,
+    },
+    EVENT_SCHEDULER_RESUMED: {
+        name: "Scheduler resumed",
+        background_color: config.colors.success_light,
+        border_color: config.colors.success_thick,
+    },
+    EVENT_EXECUTOR_ADDED: {
+        name: "Executor added",
+        background_color: config.colors.success_light,
+        border_color: config.colors.success_thick,
+    },
+    EVENT_EXECUTOR_REMOVED: {
+        name: "Executor removed",
+        background_color: config.colors.failure_light,
+        border_color: config.colors.failure_thick,
+    },
+    EVENT_JOBSTORE_ADDED: {
+        name: "Jobstore added",
+        background_color: config.colors.success_light,
+        border_color: config.colors.success_thick,
+    },
+    EVENT_JOBSTORE_REMOVED: {
+        name: "Jobstore removed",
+        background_color: config.colors.failure_light,
+        border_color: config.colors.failure_thick,
+    },
+    EVENT_ALL_JOBS_REMOVED: {
+        name: "All jobs removed",
+        background_color: config.colors.failure_light,
+        border_color: config.colors.failure_thick,
+    },
+    EVENT_JOB_ADDED: {
+        name: "Job added",
+        background_color: config.colors.success_light,
+        border_color: config.colors.success_thick,
+    },
+    EVENT_JOB_REMOVED: {
+        name: "Job removed",
+        background_color: config.colors.failure_light,
+        border_color: config.colors.failure_thick,
+    },
+    EVENT_JOB_MODIFIED: {
+        name: "Job modified",
+        background_color: config.colors.info_light,
+        border_color: config.colors.info_thick,
+    },
+    EVENT_JOB_EXECUTED: {
+        name: "Job run completed",
+        background_color: config.colors.success_light,
+        border_color: config.colors.success_thick,
+    },
+    EVENT_JOB_ERROR: {
+        name: "Job error",
+        background_color: config.colors.failure_light,
+        border_color: config.colors.failure_thick,
+    },
+    EVENT_JOB_MISSED: {
+        name: "Job skipped",
+        background_color: config.colors.grey_light,
+        border_color: config.colors.grey_thick,
+    },
+    EVENT_JOB_SUBMITTED: {
+        name: "Job submitted",
+        background_color: config.colors.success_light,
+        border_color: config.colors.success_thick,
+    },
+    EVENT_JOB_MAX_INSTANCES: {
+        name: "Job max instances breached",
+        background_color: config.colors.warning_light,
+        border_color: config.colors.warning_thick,
+    },
+};
+
+export {config, event_name_map};
