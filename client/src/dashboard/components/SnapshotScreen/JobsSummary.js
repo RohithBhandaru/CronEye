@@ -4,12 +4,12 @@ import axios from "axios";
 import * as d3 from "d3";
 import moment from "moment";
 
-import {config} from "../../config/config";
+import { config } from "../../../config/config";
 
-import { userSelector } from "../../auth/selectors/authSelector";
-import { jobSummarySelector } from "../selectors/dashboardSelector";
-import { updateJobsSummary } from "../slice/dashboardSlice";
-import { logoutUser } from "../../auth/slice/authSlice";
+import { userSelector } from "../../../auth/selectors/authSelector";
+import { jobSummarySelector } from "../../selectors/dashboardSelector";
+import { updateJobsSummary } from "../../slice/dashboardSlice";
+import { logoutUser } from "../../../auth/slice/authSlice";
 
 const JobsSummary = () => {
     const svgRef = useRef(null);

@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
 import moment from "moment";
 
-import {event_name_map} from "../../config/config";
-
+import { event_name_map } from "../../../config/config";
 
 const LogAccordian = (props) => {
     const [isActive, setIsActive] = useState(false);

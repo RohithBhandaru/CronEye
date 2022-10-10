@@ -16,7 +16,13 @@ const Dropdown = ({ name, toggleModal, length }) => {
             <div className="centered">
                 <div className={"modal" + (length === "big" ? " modal-big" : "")}>
                     {filters.map((filter) => (
-                        <Option name={name} value={name === "events"?event_name_map[filter].name: filter} key={filter} length={length} />
+                        <Option
+                            name={name}
+                            display_value={name === "events" ? event_name_map[filter].name : filter}
+                            value={filter}
+                            key={filter}
+                            length={length}
+                        />
                     ))}
                 </div>
             </div>

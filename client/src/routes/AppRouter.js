@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoadableAuth from "../auth/components/LoadableAuth";
 import HomeLayout from "../common/components/HomeLayout";
 import ProtectedLayout from "../dashboard/components/ProtectedLayout";
-import Analytics from "../dashboard/components/AnalyticsScreen";
-import Logs from "../dashboard/components/LogsScreen";
-import Settings from "../dashboard/components/SettingsScreen";
+import Analytics from "../dashboard/components/SnapshotScreen/AnalyticsScreen";
+import Logs from "../dashboard/components/LogsScreen/LogsScreen";
+import Settings from "../dashboard/components/SettingsScreen/SettingsScreen";
 
 const AppRouter = () => {
     return (

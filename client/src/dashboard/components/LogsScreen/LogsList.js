@@ -5,7 +5,7 @@ import LogHeader from "./LogHeader";
 import LogAccordian from "./LogAccordian";
 import Paginator from "./Paginator";
 
-import NoDataIllustration from "../../assets/illustrations/NoDataIllustration";
+import NoDataIllustration from "../../../assets/illustrations/NoDataIllustration";
 
 // Accessible part of the state
 const mapStateToProps = (state) => {

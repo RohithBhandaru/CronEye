@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { connect, useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
-import Option from "../../common/components/SingleSelectDropdown/Option";
+import Option from "../../../common/components/SingleSelectDropdown/Option";
 
-import { logsFormSelector } from "../selectors/dashboardSelector";
-import { userSelector } from "../../auth/selectors/authSelector";
-import { logoutUser } from "../../auth/slice/authSlice";
-import { updateLogs, updateLogsPaginator } from "../slice/dashboardSlice";
+import { logsFormSelector } from "../../selectors/dashboardSelector";
+import { userSelector } from "../../../auth/selectors/authSelector";
+import { logoutUser } from "../../../auth/slice/authSlice";
+import { updateLogs, updateLogsPaginator } from "../../slice/dashboardSlice";
 
-import {config} from "../../config/config";
+import { config } from "../../../config/config";
 
-import ChevronLeftIcon from "../../assets/icons/ChevronLeftIcon";
-import ChevronRightIcon from "../../assets/icons/ChevronRightIcon";
+import ChevronLeftIcon from "../../../assets/icons/ChevronLeftIcon";
+import ChevronRightIcon from "../../../assets/icons/ChevronRightIcon";
 
 // Accessible part of the state
 const mapStateToProps = (state) => {

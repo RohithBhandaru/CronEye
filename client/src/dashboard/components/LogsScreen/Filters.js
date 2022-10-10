@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
-import Field from "../../common/components/MultiSelectDropdown/Field";
+import Field from "../../../common/components/MultiSelectDropdown/Field";
 
-import {config} from "../../config/config";
+import { config } from "../../../config/config";
 
-import { userSelector } from "../../auth/selectors/authSelector";
-import { updateLogs, updateLogsFilters, updateLogsPaginator } from "../slice/dashboardSlice";
-import { logoutUser } from "../../auth/slice/authSlice";
+import { userSelector } from "../../../auth/selectors/authSelector";
+import { updateLogs, updateLogsFilters, updateLogsPaginator } from "../../slice/dashboardSlice";
+import { logoutUser } from "../../../auth/slice/authSlice";
 
 // Accessible part of the state
 const mapStateToProps = (state) => {

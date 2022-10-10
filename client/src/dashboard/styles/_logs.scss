@@ -117,9 +117,6 @@
     margin: 10px;
     border: 1px solid #f0f1f5;
     border-radius: 10px;
-    min-height: -webkit-fill-available;
-    min-height: -moz-fill-available;
-    min-height: fill-available;
     background-color: #f0f1f5;
 }
 
@@ -140,4 +137,5 @@
 
 .accordian-content-value {
     margin-left: 10px;
+    white-space: pre-line;
 }

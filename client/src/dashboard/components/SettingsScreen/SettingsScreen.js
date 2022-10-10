@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
-import { config } from "../../config/config";
+import { config } from "../../../config/config";
 
-import { userSelector } from "../../auth/selectors/authSelector";
-import { updateSettingsForm, updateSettings } from "../slice/dashboardSlice";
-import { logoutUser } from "../../auth/slice/authSlice";
+import { userSelector } from "../../../auth/selectors/authSelector";
+import { updateSettingsForm, updateSettings } from "../../slice/dashboardSlice";
+import { logoutUser } from "../../../auth/slice/authSlice";
 
-import EditIcon from "../../assets/icons/EditIcon";
+import EditIcon from "../../../assets/icons/EditIcon";
 
 // Accessible part of the state
 const mapStateToProps = (state) => {

@@ -5,17 +5,17 @@ import axios from "axios";
 import SummaryCard from "./SummaryCard";
 import CurrentTime from "./CurrentTime";
 
-import SuccessStatusIcon from "../../assets/icons/SuccessStatusIcon";
-import ErrorStatusIcon from "../../assets/icons/ErrorStatusIcon";
-import PausedStatusIcon from "../../assets/icons/PausedStatusIcon";
-import UnknownStatusIcon from "../../assets/icons/UnknownStatusIcon";
+import SuccessStatusIcon from "../../../assets/icons/SuccessStatusIcon";
+import ErrorStatusIcon from "../../../assets/icons/ErrorStatusIcon";
+import PausedStatusIcon from "../../../assets/icons/PausedStatusIcon";
+import UnknownStatusIcon from "../../../assets/icons/UnknownStatusIcon";
 
-import {config} from "../../config/config";
+import { config } from "../../../config/config";
 
-import { updateSummary } from "../slice/dashboardSlice";
-import { logoutUser } from "../../auth/slice/authSlice";
-import { summarySelector } from "../selectors/dashboardSelector";
-import { userSelector } from "../../auth/selectors/authSelector";
+import { updateSummary } from "../../slice/dashboardSlice";
+import { logoutUser } from "../../../auth/slice/authSlice";
+import { summarySelector } from "../../selectors/dashboardSelector";
+import { userSelector } from "../../../auth/selectors/authSelector";
 
 const iconMapper = (status) => {
     switch (status) {

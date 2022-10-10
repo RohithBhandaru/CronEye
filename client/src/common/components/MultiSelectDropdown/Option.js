@@ -21,7 +21,7 @@ const Option = (props) => {
         <label className="ms-option" title={props.value}>
             <input type={"checkbox"} onChange={updateOption} checked={props.form[props.name].includes(props.value)} />
             <span className={"ms-option-value" + (props.length === "big" ? " ms-option-value-big" : "")}>
-                {props.value}
+                {props.display_value}
             </span>
         </label>
     );
