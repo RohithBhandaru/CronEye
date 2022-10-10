@@ -22,6 +22,13 @@ const dashboardSlice = createSlice({
             page_number: null,
             page_size: null,
         },
+        settings_form: {
+            project_name: null,
+        },
+        settings: {
+            id: null,
+            project_name: null,
+        },
     },
     reducers: {
         updateSummary(state, action) {
@@ -63,10 +70,25 @@ const dashboardSlice = createSlice({
                 state.logs_form[action.payload.name] = action.payload.value;
             }
         },
+        updateSettingsForm(state, action) {
+            state.settings_form[action.payload.name] = action.payload.value;
+        },
+        updateSettings(state, action) {
+            state.settings = action.payload;
+            state.settings_form.project_name = action.payload.project_name;
+        },
     },
 });
 
 const { actions, reducer } = dashboardSlice;
-export const { updateSummary, updateJobsSummary, updateLogs, updateLogsPaginator, updateLogsFilters, updateLogsForm } =
-    actions;
+export const {
+    updateSummary,
+    updateJobsSummary,
+    updateLogs,
+    updateLogsPaginator,
+    updateLogsFilters,
+    updateLogsForm,
+    updateSettings,
+    updateSettingsForm,
+} = actions;
 export default reducer;

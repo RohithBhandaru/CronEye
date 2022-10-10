@@ -44,38 +44,7 @@ const Filters = (props) => {
                 }
             });
 
-        axios
-            .post(
-                `${config.dashboard_base_url}/logs`,
-                {
-                    filters: {
-                        schedulers: props.form.schedulers,
-                        jobs: props.form.jobs,
-                        events: props.form.events,
-                    },
-                    page_number: props.paginator.current_page,
-                    page_size: props.paginator.per_page,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.authToken}`,
-                    },
-                }
-            )
-            .then((response) => {
-                const data = response.data;
-                dispatch(updateLogs(data.data));
-                dispatch(updateLogsPaginator(data.meta.pagination));
-            })
-            .catch((err) => {
-                if (
-                    (err.response.data.status === 400 && err.response.data.message === "Provide a valid auth token") ||
-                    [401, 403].includes(err.response.data.status)
-                ) {
-                    localStorage.setItem("authToken", "");
-                    dispatch(logoutUser());
-                }
-            });
+        handleSubmit();
     }, [dispatch, user.authToken]);
 
     const handleSubmit = () => {

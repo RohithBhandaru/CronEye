@@ -318,6 +318,7 @@ class Settings(Resource):
             cur.execute("UPDATE settings SET project_name=%s WHERE id=%s", (data.get("project_name"), data.get("id")))
             conn.commit()
 
+            response["data"] = data
             response["message"] = "Updated settings"
             response["status"] = "success"
             return response, HTTPResponseCodes.SUCCESS.value
@@ -338,7 +339,7 @@ class Settings(Resource):
         try:
             data = json.loads(request.data)
 
-            cur.execute("INSERT INTO settings (project_name) VALUES (%s) RETURNING id;", (data.get("project_name")))
+            cur.execute("INSERT INTO settings (project_name) VALUES (%s) RETURNING id;", (data.get("project_name"),))
             data = cur.fetchone()[0]
             conn.commit()
 

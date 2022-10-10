@@ -1,0 +1,71 @@
+.settings-container {
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.settings-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 30%;
+}
+
+.settings-block-details {
+    margin: 20px 0px 0px 10px;
+    padding: 10px 20px;
+    background-color: white;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.settings-block-detail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 14px;
+    margin: 10px 0px;
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.settings-block-detail-key {
+    font-style: italic;
+}
+
+.settings-block-detail-value {
+    margin-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.settings-form-input {
+    border-radius: 10px;
+    padding: 8px;
+    background-color: white;
+    border: 1px solid gray;
+    margin-left: 10px;
+}
+
+.settings-form-input:hover,
+.settings-form-input:active {
+    border: 1px solid black;
+}
+
+.action-btn-container {
+    width: -webkit-fill-available;
+    width: -moz-available;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0px 10px 0px;
+}
