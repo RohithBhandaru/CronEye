@@ -18,9 +18,7 @@ const ProtectedLayout = ({ children }) => {
     const user = useSelector(userSelector);
 
     useEffect(() => {
-        if (!user.authToken) {
-            return <Navigate to="/auth/login" />;
-        } else {
+        if (user.authToken) {
             axios
                 .get(`${config.dashboard_base_url}/settings`, {
                     headers: {
@@ -47,6 +45,10 @@ const ProtectedLayout = ({ children }) => {
                 });
         }
     }, [dispatch, user.authToken]);
+
+    if (!user.authToken) {
+        return <Navigate to="/auth/login" />;
+    }
 
     return (
         <div className="dashboard-container">
