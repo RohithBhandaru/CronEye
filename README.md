@@ -1,4 +1,4 @@
-![Cron Eye Title](/assets/croneye-title.svg)
+![Cron Eye Title](/.github/assets/croneye-title.svg)
 
 # Welcome
 
