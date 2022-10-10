@@ -81,3 +81,19 @@
 .labels {
     margin: 5px 0px 25px 0px;
 }
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.ylabel-title {
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.job-status-div {
+    margin-top: 8px;
+}
