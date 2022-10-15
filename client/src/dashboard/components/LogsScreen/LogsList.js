@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import LogHeader from "./LogTableHeader";
 import LogAccordian from "./LogAccordian";
 import Paginator from "./Paginator";
-import Loader from "../../../common/components/Loader";
+// import Loader from "../../../common/components/Loader";
+import LogsSkeletonLoader from "../../../common/components/LogsSkeletonLoader";
 
 import NoDataIllustration from "../../../assets/illustrations/NoDataIllustration";
 
@@ -21,9 +22,18 @@ const LogsList = (props) => {
         <div className="logs-container">
             <div className="table-container">
                 <LogHeader />
+
                 {props.loader.logs ? (
-                    <div style={{ margin: "40px" }}>
-                        <Loader />
+                    // <div style={{ margin: "40px" }}>
+                    //     <Loader />
+                    // </div>
+                    <div style={{ width: "100%", backgroundColor: "white" }}>
+                        <LogsSkeletonLoader width="100%" height="60px" />
+                        <div style={{ borderBottom: "2px solid #f0f1f5", height: "2px" }} />
+                        <LogsSkeletonLoader width="100%" height="60px" />
+                        <div style={{ borderBottom: "2px solid #f0f1f5", height: "2px" }} />
+                        <LogsSkeletonLoader width="100%" height="60px" />
+                        <div style={{ borderBottom: "2px solid #f0f1f5", height: "2px" }} />
                     </div>
                 ) : props.logs?.length > 0 ? (
                     props.logs.map((log, idx) => <LogAccordian {...log} key={idx} />)
@@ -45,6 +55,7 @@ const LogsList = (props) => {
                         </span>
                     </div>
                 )}
+
                 <Paginator />
             </div>
         </div>
