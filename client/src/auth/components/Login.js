@@ -37,6 +37,7 @@ const Login = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (!props.auth.loginForm.email || !props.auth.loginForm.password) {
             setEmailEmpty(!props.auth.loginForm.email ? true : false);
             setPasswordEmpty(!props.auth.loginForm.password ? true : false);
@@ -55,6 +56,7 @@ const Login = (props) => {
                     dispatch(loginUser({ email: props.auth.loginForm.email, authToken: data.auth_token }));
                     dispatch(updateServerMessage({ serverMessageType: data.status, serverMessage: data.message }));
                     dispatch(clearAuthForm());
+                    setIsLoading(false);
                 })
                 .catch((err) => {
                     toggleFlash(true);
@@ -64,6 +66,7 @@ const Login = (props) => {
                             serverMessage: err.response.data.message,
                         })
                     );
+                    setIsLoading(false);
                 });
         }
     };
@@ -119,7 +122,7 @@ const Login = (props) => {
                     </div>
 
                     <div className="form-field-box" style={{ marginTop: "35px", marginBottom: "60px" }}>
-                        <button className="button good-action-btn">Submit</button>
+                        <button className="button good-action-btn">{isLoading ? "Submitting.." : "Submit"}</button>
                     </div>
                 </form>
             </div>
