@@ -28,6 +28,6 @@ docker run croneye/app:latest
 kubectl apply -f https://github.com/RohithBhandaru/CronEye/croneye_app.yml
 ```
 
-### Documentation
+## Integrate CronEye with your service
 
-Docummentation for event listener API can be accessed [here](/docs/)
+Add event api calls to your code so that appropriate payload is sent based on the event generated. Docs for the event listener api can be found at [here](/docs/)
