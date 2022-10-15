@@ -7,7 +7,7 @@ import Field from "../../../common/components/MultiSelectDropdown/Field";
 import { config } from "../../../config/config";
 
 import { userSelector } from "../../../auth/selectors/authSelector";
-import { updateLogs, updateLogsFilters, updateLogsPaginator } from "../../slice/dashboardSlice";
+import { updateLogs, updateLogsFilters, updateLogsPaginator, updateLoadingState } from "../../slice/dashboardSlice";
 import { logoutUser } from "../../../auth/slice/authSlice";
 
 // Accessible part of the state
@@ -24,31 +24,37 @@ const Filters = (props) => {
     const user = useSelector(userSelector);
 
     useEffect(() => {
-        axios
-            .get(`${config.dashboard_base_url}/logs/filters`, {
-                headers: {
-                    Authorization: `Bearer ${user.authToken}`,
-                },
-            })
-            .then((response) => {
-                const data = response.data;
-                dispatch(updateLogsFilters(data.data));
-            })
-            .catch((err) => {
-                if (
-                    (err.response.data.status === 400 && err.response.data.message === "Provide a valid auth token") ||
-                    [401, 403].includes(err.response.data.status)
-                ) {
-                    localStorage.setItem("authToken", "");
-                    dispatch(logoutUser());
-                }
-            });
+        new Promise((resolve) => {
+            dispatch(updateLoadingState({ name: "logs", value: true }));
+            resolve();
+        }).then(() => {
+            axios
+                .get(`${config.dashboard_base_url}/logs/filters`, {
+                    headers: {
+                        Authorization: `Bearer ${user.authToken}`,
+                    },
+                })
+                .then((response) => {
+                    const data = response.data;
+                    dispatch(updateLogsFilters(data.data));
+                })
+                .catch((err) => {
+                    if (
+                        (err.response.data.status === 400 &&
+                            err.response.data.message === "Provide a valid auth token") ||
+                        [401, 403].includes(err.response.data.status)
+                    ) {
+                        localStorage.setItem("authToken", "");
+                        dispatch(logoutUser());
+                    }
+                });
 
-        handleSubmit();
+            getLogs();
+        });
     }, [dispatch, user.authToken]);
 
-    const handleSubmit = () => {
-        axios
+    const getLogs = () => {
+        return axios
             .post(
                 `${config.dashboard_base_url}/logs`,
                 {
@@ -80,6 +86,17 @@ const Filters = (props) => {
                     dispatch(logoutUser());
                 }
             });
+    };
+
+    const handleSubmit = () => {
+        new Promise((resolve) => {
+            dispatch(updateLoadingState({ name: "logs", value: true }));
+            resolve();
+        })
+            .then(() => {
+                getLogs();
+            })
+            .then(() => dispatch(updateLoadingState({ name: "logs", value: false })));
     };
 
     return (

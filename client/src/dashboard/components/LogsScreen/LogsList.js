@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import LogHeader from "./LogHeader";
+import LogHeader from "./LogTableHeader";
 import LogAccordian from "./LogAccordian";
 import Paginator from "./Paginator";
+import Loader from "../../../common/components/Loader";
 
 import NoDataIllustration from "../../../assets/illustrations/NoDataIllustration";
 
@@ -11,6 +12,7 @@ import NoDataIllustration from "../../../assets/illustrations/NoDataIllustration
 const mapStateToProps = (state) => {
     return {
         logs: state.dashboard.logs,
+        loader: state.dashboard.loading_state,
     };
 };
 
@@ -19,7 +21,9 @@ const LogsList = (props) => {
         <div className="logs-container">
             <div className="table-container">
                 <LogHeader />
-                {props.logs?.length > 0 ? (
+                {props.loader.logs ? (
+                    <Loader />
+                ) : props.logs?.length > 0 ? (
                     props.logs.map((log, idx) => <LogAccordian {...log} key={idx} />)
                 ) : (
                     <div
