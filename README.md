@@ -1,6 +1,6 @@
 ![Cron Eye Title](/.github/assets/croneye-title.svg)
 
-# Welcome
+## Welcome
 
 CronEye is an open source tool to gain obervability into your APScheduler based jobs.
 
