@@ -7,7 +7,7 @@ import Option from "../../../common/components/SingleSelectDropdown/Option";
 import { logsFormSelector } from "../../selectors/dashboardSelector";
 import { userSelector } from "../../../auth/selectors/authSelector";
 import { logoutUser } from "../../../auth/slice/authSlice";
-import { updateLogs, updateLogsPaginator } from "../../slice/dashboardSlice";
+import { updateLogs, updateLogsPaginator, updateLoadingState } from "../../slice/dashboardSlice";
 
 import { config } from "../../../config/config";
 
@@ -48,38 +48,44 @@ const Paginator = (props) => {
             page_size = event_value;
         }
 
-        axios
-            .post(
-                `${config.dashboard_base_url}/logs`,
-                {
-                    filters: {
-                        schedulers: logs_form.schedulers,
-                        jobs: logs_form.jobs,
-                        events: logs_form.events,
+        new Promise((resolve) => {
+            dispatch(updateLoadingState({ name: "logs", value: true }));
+            resolve();
+        }).then(() => {
+            axios
+                .post(
+                    `${config.dashboard_base_url}/logs`,
+                    {
+                        filters: {
+                            schedulers: logs_form.schedulers,
+                            jobs: logs_form.jobs,
+                            events: logs_form.events,
+                        },
+                        page_number,
+                        page_size,
                     },
-                    page_number,
-                    page_size,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.authToken}`,
-                    },
-                }
-            )
-            .then((response) => {
-                const data = response.data;
-                dispatch(updateLogs(data.data));
-                dispatch(updateLogsPaginator(data.meta.pagination));
-            })
-            .catch((err) => {
-                if (
-                    (err.response.data.status === 400 && err.response.data.message === "Provide a valid auth token") ||
-                    [401, 403].includes(err.response.data.status)
-                ) {
-                    localStorage.setItem("authToken", "");
-                    dispatch(logoutUser());
-                }
-            });
+                    {
+                        headers: {
+                            Authorization: `Bearer ${user.authToken}`,
+                        },
+                    }
+                )
+                .then((response) => {
+                    const data = response.data;
+                    dispatch(updateLogs(data.data));
+                    dispatch(updateLogsPaginator(data.meta.pagination));
+                })
+                .catch((err) => {
+                    if (
+                        (err.response.data.status === 400 &&
+                            err.response.data.message === "Provide a valid auth token") ||
+                        [401, 403].includes(err.response.data.status)
+                    ) {
+                        localStorage.setItem("authToken", "");
+                        dispatch(logoutUser());
+                    }
+                });
+        });
     };
 
     return (

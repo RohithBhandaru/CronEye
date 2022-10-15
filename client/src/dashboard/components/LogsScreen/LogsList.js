@@ -22,7 +22,9 @@ const LogsList = (props) => {
             <div className="table-container">
                 <LogHeader />
                 {props.loader.logs ? (
-                    <Loader />
+                    <div style={{ margin: "40px" }}>
+                        <Loader />
+                    </div>
                 ) : props.logs?.length > 0 ? (
                     props.logs.map((log, idx) => <LogAccordian {...log} key={idx} />)
                 ) : (
