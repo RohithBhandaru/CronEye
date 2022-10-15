@@ -30,4 +30,4 @@ kubectl apply -f https://github.com/RohithBhandaru/CronEye/croneye_app.yml
 
 ### Documentation
 
-Docummentation can be accessed [here](/docs/)
+Docummentation for event listener API can be accessed [here](/docs/)
