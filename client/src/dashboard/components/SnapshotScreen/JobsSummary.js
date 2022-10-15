@@ -4,6 +4,8 @@ import axios from "axios";
 import * as d3 from "d3";
 import moment from "moment";
 
+import JobsSnapshotSkeletonLoader from "../../../common/components/JobsSnapshotSkeletonLoader";
+
 import { config } from "../../../config/config";
 
 import { userSelector } from "../../../auth/selectors/authSelector";
@@ -372,6 +374,8 @@ const JobsSummary = () => {
         }
     }, [summary]);
 
+    console.log(summary);
+
     return (
         <div ref={svgContainerRef} style={{ margin: "10px 30px 30px 30px" }}>
             <div className="block-title non-first-block">Jobs</div>
@@ -444,7 +448,16 @@ const JobsSummary = () => {
                     <div style={{ fontStyle: "italic" }}>Missed run</div>
                 </div>
             </div>
-            <svg ref={svgRef} />
+
+            {summary?.jobs ? (
+                <svg ref={svgRef} />
+            ) : (
+                <div>
+                    <JobsSnapshotSkeletonLoader width="100%" height="70" />
+                    <JobsSnapshotSkeletonLoader width="100%" height="70" />
+                    <JobsSnapshotSkeletonLoader width="100%" height="70" />
+                </div>
+            )}
         </div>
     );
 };

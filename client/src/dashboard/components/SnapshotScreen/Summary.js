@@ -22,11 +22,11 @@ const iconMapper = (status) => {
         case "active":
             return <SuccessStatusIcon height={24} width={24} />;
         case "shutdown":
-            return <ErrorStatusIcon height={30} width={30} />;
+            return <ErrorStatusIcon height={24} width={24} />;
         case "paused":
-            return <PausedStatusIcon height={30} width={30} />;
+            return <PausedStatusIcon height={24} width={24} />;
         default:
-            return <UnknownStatusIcon height={30} width={30} />;
+            return <UnknownStatusIcon height={24} width={24} />;
     }
 };
 
