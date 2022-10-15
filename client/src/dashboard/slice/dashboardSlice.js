@@ -9,7 +9,12 @@ const dashboardSlice = createSlice({
             running_jobs: null,
             overrun_jobs: null,
         },
-        jobs_summary: {},
+        loading_state: {
+            summary: true,
+            jobs_graph: true,
+            logs: true,
+        },
+        jobs_graph: {},
         logs: {},
         logs_paginator: {},
         logs_filters: [],
@@ -41,10 +46,11 @@ const dashboardSlice = createSlice({
             };
         },
         updateJobsSummary(state, action) {
-            state.jobs_summary = action.payload;
+            state.jobs_graph = action.payload;
         },
         updateLogs(state, action) {
             state.logs = action.payload;
+            state.loading_state.logs = false;
         },
         updateLogsPaginator(state, action) {
             state.logs_paginator = action.payload;
@@ -77,6 +83,9 @@ const dashboardSlice = createSlice({
             state.settings = action.payload;
             state.settings_form.project_name = action.payload.project_name;
         },
+        updateLoadingState(state, action) {
+            state.loading_state[action.payload.name] = action.payload.value;
+        },
     },
 });
 
@@ -90,5 +99,6 @@ export const {
     updateLogsForm,
     updateSettings,
     updateSettingsForm,
+    updateLoadingState,
 } = actions;
 export default reducer;

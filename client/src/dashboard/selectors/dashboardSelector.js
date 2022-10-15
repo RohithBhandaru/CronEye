@@ -1,6 +1,6 @@
 const summarySelector = (state) => state.dashboard.summary;
 
-const jobSummarySelector = (state) => state.dashboard.jobs_summary;
+const jobSummarySelector = (state) => state.dashboard.jobs_graph;
 
 const logsSelector = (state) => state.dashboard.logs;
 
@@ -16,6 +16,8 @@ const settingsSelector = (state) => state.settings;
 
 const settingsFormSelector = (state) => state.settings_form;
 
+const loadingStateSelector = (state) => state.loading_state;
+
 export {
     summarySelector,
     jobSummarySelector,
@@ -26,4 +28,5 @@ export {
     selectedOptionsSelector,
     settingsSelector,
     settingsFormSelector,
+    loadingStateSelector,
 };
