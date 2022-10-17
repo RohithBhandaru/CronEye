@@ -59,6 +59,7 @@
 
 .column-1 {
     width: 20px;
+    margin-right: 10px;
 }
 
 .column-text {
@@ -68,7 +69,10 @@
     text-overflow: ellipsis;
 }
 
-.column-2,
+.column-2 {
+    width: calc(15% - 40px);
+}
+
 .column-3 {
     width: 15%;
 }

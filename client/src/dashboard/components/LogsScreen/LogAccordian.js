@@ -3,20 +3,32 @@ import moment from "moment";
 
 import { event_name_map } from "../../../config/config";
 
+import ChevronRightIcon from "../../../assets/icons/ChevronRightIcon";
+
 const LogAccordian = (props) => {
     const [isActive, setIsActive] = useState(false);
     const contentRef = useRef();
 
+    const rotate = isActive ? "rotate(90deg)" : "rotate(0)";
+
     return (
         <div className="accordian-container">
             <div className="accordian-title" onClick={() => setIsActive(!isActive)}>
-                <div className="column-1">{isActive ? "-" : "+"}</div>
+                <ChevronRightIcon
+                    width="18"
+                    height="18"
+                    color="black"
+                    style={{ transform: rotate, transition: "all 0.2s linear", marginRight: "10px" }}
+                />
+
                 <div className="column-2">
                     <div className="column-text">{props.scheduler_name}</div>
                 </div>
+
                 <div className="column-3">
                     <div className="column-text">{props.job_name}</div>
                 </div>
+
                 <div className="column-4">
                     <div className="column-text">
                         <div
@@ -30,12 +42,15 @@ const LogAccordian = (props) => {
                         </div>
                     </div>
                 </div>
+
                 <div className="column-5">
                     <div className="column-text">{moment(props.event_time).format("HH:mm:ss A - MMM Do YYYY")}</div>
                 </div>
+
                 <div className="column-6">
                     <div className="column-text">{props.event_return_value}</div>
                 </div>
+
                 <div className="column-7">
                     <div className="column-text">{props.event_exception}</div>
                 </div>
@@ -57,6 +72,7 @@ const LogAccordian = (props) => {
                             <div className="accordian-content-value">{props.scheduler_status}</div>
                         </div>
                     </div>
+
                     <div className="accordian-content-sub-block">
                         <div className="accordian-content-item">
                             <div className="accordian-content-key">Job:</div>
@@ -75,20 +91,24 @@ const LogAccordian = (props) => {
                             <div className="accordian-content-key">Event:</div>
                             <div className="accordian-content-value">{props.event_status}</div>
                         </div>
+
                         <div className="accordian-content-item">
                             <div className="accordian-content-key">Time:</div>
                             <div className="accordian-content-value">
                                 {moment(props.event_time).format("HH:mm:ss A - MMM Do YYYY")}
                             </div>
                         </div>
+
                         <div className="accordian-content-item">
                             <div className="accordian-content-key">Output:</div>
                             <div className="accordian-content-value">{props.event_return_value}</div>
                         </div>
+
                         <div className="accordian-content-item">
                             <div className="accordian-content-key">Error:</div>
                             <div className="accordian-content-value">{props.event_exception}</div>
                         </div>
+
                         <div className="accordian-content-item">
                             <div className="accordian-content-key">Traceback:</div>
                             <div className="accordian-content-value">{props.event_traceback}</div>
