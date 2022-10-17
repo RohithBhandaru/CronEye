@@ -23,7 +23,7 @@ Push APScheduler events to CronEye.
 ```
 {
     "event_code": 1,    # Number corresponding to the code
-    "alias": "abc"     # Scheduler name
+    "alias": "abc"      # Scheduler name
 }
 ```
 

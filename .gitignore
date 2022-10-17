@@ -4,8 +4,10 @@
 **/venv
 **/**.env
 **/**.db
+**/**.flaskenv
 
 #Client
+**/build
 **/public
 **/node_modules
 **/package-lock.json

@@ -16,16 +16,16 @@ CronEye is an open source tool to gain obervability into your APScheduler based 
 
 ### Use docker
 
-Run docker image
+Run docker compose for running databse, api and the client containers
 
 ```
-docker run croneye/app:latest
+docker-compose build && docker-compose up -d
 ```
 
 ### Use kubernetes
 
 ```
-kubectl apply -f https://github.com/RohithBhandaru/CronEye/croneye_app.yml
+kubectl apply -f https://github.com/RohithBhandaru/CronEye/croneye_app_k8s.yml
 ```
 
 ## Integrate CronEye with your service

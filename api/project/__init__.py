@@ -29,9 +29,9 @@ def create_app():
     from .listener import listener as listener_blueprint
     from .dashboard import dashboard as dashboard_blueprint
 
-    app.register_blueprint(auth_blueprint, url_prefix="/api/auth")
-    app.register_blueprint(listener_blueprint, url_prefix="/api/listener")
-    app.register_blueprint(dashboard_blueprint, url_prefix="/api/dashboard")
+    app.register_blueprint(auth_blueprint, url_prefix="/croneye/api/auth")
+    app.register_blueprint(listener_blueprint, url_prefix="/croneye/api/listener")
+    app.register_blueprint(dashboard_blueprint, url_prefix="/croneye/api/dashboard")
 
     @app.shell_context_processor
     def ctx():

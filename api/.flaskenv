@@ -1,3 +1,0 @@
-FLASK_APP=manage.py
-FLASK_ENV=qa
-FLASK_RUN_PORT=5000

@@ -4,33 +4,51 @@ volumes:
     postgres_data: {}
 
 services:
-    db:
-        image: postgres:alpine
-        volumes:
-            - postgres_data:/var/lib/postgresql/data
-        env_file:
-            - ./db/.env
-        networks:
-            - api_network
-        ports:
-            - 5432:5432
+  db:
+    image: postgres:alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./db/.env
+    networks:
+      - db_network
+    ports:
+      - 5432:5432
 
-    api:
-        container_name: croneye_api
-        build:
-            context: ./api
-            dockerfile: Dockerfile
-        env_file:
-            - ./api/project/.env
-        volumes:
-            - ./api:/app
-        networks:
-            - api_network
-        depends_on:
-            - db
-        ports:
-            - 5001:5000
+  api:
+    container_name: croneye_api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    env_file:
+      - ./api/project/.env
+    volumes:
+      - ./api:/app
+    networks:
+      - db_network
+      - api_network
+    depends_on:
+      - db
+    ports:
+      - 5001:5000
+  
+  client:
+    container_name: croneye_client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/app
+    networks:
+      - api_network
+    depends_on:
+      - api
+    ports:
+      - 3001:3000
 
 networks:
-    api_network:
-        driver: bridge
+  db_network:
+    driver: bridge
+  
+  api_network:
+    driver: bridge

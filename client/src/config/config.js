@@ -1,7 +1,7 @@
 const config = {
-    base_url: "http://0.0.0.0:5001/api",
-    auth_base_url: "http://0.0.0.0:5001/api/auth",
-    dashboard_base_url: "http://0.0.0.0:5001/api/dashboard",
+    base_url: "http://0.0.0.0:5001/croneye/api",
+    auth_base_url: "http://0.0.0.0:5001/croneye/api/auth",
+    dashboard_base_url: "http://0.0.0.0:5001/croneye/api/dashboard",
     colors: {
         brand_yellow: "#fc951e",
         brand_blue: "#0a64a5",
