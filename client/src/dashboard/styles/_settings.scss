@@ -1,7 +1,7 @@
 .settings-container {
     padding: 40px 30px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
 }
@@ -12,6 +12,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     width: 30%;
+    margin-bottom: 40px;
 }
 
 .settings-block-details {
@@ -39,6 +40,7 @@
 
 .settings-block-detail-key {
     font-style: italic;
+    width: 35%;
 }
 
 .settings-block-detail-value {

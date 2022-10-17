@@ -29,11 +29,15 @@ const dashboardSlice = createSlice({
         },
         settings_form: {
             project_name: null,
+            current_password: null,
+            new_password: null,
         },
         settings: {
             id: null,
             project_name: null,
         },
+        flash_message_type: null,
+        flash_message: null,
     },
     reducers: {
         updateSummary(state, action) {
@@ -86,6 +90,10 @@ const dashboardSlice = createSlice({
         updateLoadingState(state, action) {
             state.loading_state[action.payload.name] = action.payload.value;
         },
+        updateFlashMessage(state, action) {
+            state.flash_message_type = action.payload.flash_message_type;
+            state.flash_message = action.payload.flash_message;
+        },
     },
 });
 
@@ -100,5 +108,6 @@ export const {
     updateSettings,
     updateSettingsForm,
     updateLoadingState,
+    updateFlashMessage,
 } = actions;
 export default reducer;

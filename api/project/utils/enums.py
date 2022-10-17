@@ -4,7 +4,7 @@ from enum import Enum
 class HTTPResponseCodes(Enum):
     SUCCESS = 200
     API_REDIRECT = 303
-    BAD_REQUEST = 404
+    BAD_REQUEST = 400
     AUTHENTICATION_FAILED = 401
     UNAUTHORISED_USER = 403
     NOT_FOUND = 404

@@ -103,9 +103,9 @@ def change_password(resp):
 
         user = Users.query.filter_by(id=resp.get("id")).first()
         if not check_password_hash(user.password, current_password):
-            authentication_failed_401(logger, "POST", "/api/auth/users/change-password", "", {})
-            response_obj["message"] = "Password is not matching. Try again."
-            return jsonify(response_obj), HTTPResponseCodes.AUTHENTICATION_FAILED.value
+            bad_request_400(logger, "POST", "/api/auth/users/change-password", "", {})
+            response_obj["message"] = "Current password is not matching."
+            return jsonify(response_obj), HTTPResponseCodes.BAD_REQUEST.value
 
         user.password = generate_password_hash(new_password)
         db.session.commit()
