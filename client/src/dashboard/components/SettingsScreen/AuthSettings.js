@@ -42,7 +42,8 @@ const AuthSettings = (props) => {
         })
             .then((response) => {
                 setFormVisible(false);
-                dispatch(logoutUser);
+                resetPasswordForm();
+                dispatch(logoutUser());
             })
             .catch((err) => {
                 if (
@@ -72,8 +73,7 @@ const AuthSettings = (props) => {
         );
     };
 
-    const handleCancel = () => {
-        setFormVisible(false);
+    const resetPasswordForm = () => {
         dispatch(
             updateSettingsForm({
                 name: "current_password",
@@ -89,6 +89,18 @@ const AuthSettings = (props) => {
         );
 
         dispatch(
+            updateSettingsForm({
+                name: "new_password2",
+                value: null,
+            })
+        );
+    };
+
+    const handleCancel = () => {
+        setFormVisible(false);
+        resetPasswordForm();
+
+        dispatch(
             updateFlashMessage({
                 flash_message_type: null,
                 flash_message: null,
@@ -97,11 +109,25 @@ const AuthSettings = (props) => {
     };
 
     const handleSubmit = () => {
-        if (props.settings_form.current_password !== props.settings_form.new_password) {
+        let flash_message;
+        if (props.settings_form.new_password !== props.settings_form.new_password2) {
+            flash_message = "Passwords don't match.";
+        }
+
+        if (
+            !props.settings_form.current_password ||
+            !props.settings_form.new_password ||
+            !props.settings_form.new_password2
+        ) {
+            flash_message = "Empty password.";
+        }
+
+        if (flash_message) {
+            toggleFlash(true);
             dispatch(
                 updateFlashMessage({
                     flash_message_type: "failure",
-                    flash_message: "Passwords don't match.",
+                    flash_message: flash_message,
                 })
             );
             return;
@@ -130,7 +156,7 @@ const AuthSettings = (props) => {
                         ) : (
                             <>
                                 <div className="settings-block-detail-key">Password:</div>{" "}
-                                <div className="settings-block-detail-value">***</div>
+                                <div className="settings-block-detail-value">********</div>
                             </>
                         )}
                     </div>
@@ -165,7 +191,26 @@ const AuthSettings = (props) => {
                 )}
 
                 {formVisible && (
+                    <div className="settings-block-detail">
+                        <div className="flex-row" style={{ width: "100%" }}>
+                            <div className="settings-block-detail-key">New password again:</div>{" "}
+                            <input
+                                className="settings-form-input"
+                                name="new_password2"
+                                type="text"
+                                value={props.settings_form.new_password2 || ""}
+                                required
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {formVisible && (
                     <>
+                        <div className="form-alert-text">
+                            On successful change, you will be redirected to login page
+                        </div>
                         <div className="action-btn-container">
                             <div className="button bad-action-btn" onClick={handleCancel}>
                                 Cancel

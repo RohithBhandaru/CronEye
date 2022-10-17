@@ -31,6 +31,7 @@ const dashboardSlice = createSlice({
             project_name: null,
             current_password: null,
             new_password: null,
+            new_password2: null,
         },
         settings: {
             id: null,
