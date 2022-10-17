@@ -1,0 +1,13 @@
+bases:
+  - ./croneye_app_k8s.yml
+
+secretGenerator:
+  - name: secrets-db
+    namespace: croneye
+    envs:
+      - ../db/.env
+  
+  - name: secrets-api
+    namespace: croneye
+    envs:
+      - ../api/project/.env
