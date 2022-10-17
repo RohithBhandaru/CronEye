@@ -1,8 +1,9 @@
 import json, logging, logging.config
 from flask import jsonify, request
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from . import auth
+from .. import db
 from ..models import Users
 from ..logs.config import config as logger_config
 from ..utils.enums import HTTPResponseCodes
@@ -88,4 +89,37 @@ def check_status(resp):
             {},
         )
         response_obj["message"] = "Failed while getting user login status"
+        return jsonify(response_obj), HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
+
+
+@auth.route("/change-password", methods=["POST"])
+@authenticate_user
+def change_password(resp):
+    response_obj = {"status": "failure", "message": "", "data": {}}
+    try:
+        data = json.loads(request.data)
+        current_password = data.get("current_password", "")
+        new_password = data.get("new_password", "")
+
+        user = Users.query.filter_by(id=resp.get("id")).first()
+        if not check_password_hash(user.password, current_password):
+            authentication_failed_401(logger, "POST", "/api/auth/users/change-password", "", {})
+            response_obj["message"] = "Password is not matching. Try again."
+            return jsonify(response_obj), HTTPResponseCodes.AUTHENTICATION_FAILED.value
+
+        user.password = generate_password_hash(new_password)
+        db.session.commit()
+
+        response_obj["status"] = "success"
+        return jsonify(response_obj), HTTPResponseCodes.SUCCESS.value
+    except Exception:
+        internal_server_error_500(
+            logger,
+            "GET",
+            "/api/auth/users/change-password",
+            "Failed while changing password",
+            "",
+            {},
+        )
+        response_obj["message"] = "Failed while changing password"
         return jsonify(response_obj), HTTPResponseCodes.INTERNAL_SERVER_ERROR.value
