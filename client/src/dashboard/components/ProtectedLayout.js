@@ -35,9 +35,8 @@ const ProtectedLayout = ({ children }) => {
                 })
                 .catch((err) => {
                     if (
-                        (err.response.data.status === 400 &&
-                            err.response.data.message === "Provide a valid auth token") ||
-                        [401, 403].includes(err.response.data.status)
+                        (err.response.status === 400 && err.response.data.message === "Provide a valid auth token") ||
+                        [401, 403].includes(err.response.status)
                     ) {
                         localStorage.setItem("authToken", "");
                         dispatch(logoutUser());

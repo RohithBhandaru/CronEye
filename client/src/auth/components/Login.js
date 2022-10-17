@@ -22,7 +22,7 @@ const Login = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [emailEmpty, setEmailEmpty] = useState(false);
     const [passwordEmpty, setPasswordEmpty] = useState(false);
-    const [flash, toggleFlash] = useState(true);
+    const [flash, toggleFlash] = useState(false);
 
     const dispatch = useDispatch();
     const handleChange = (e) => {
