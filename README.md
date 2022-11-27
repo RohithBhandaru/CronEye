@@ -14,6 +14,7 @@ CronEye is an open source tool to gain obervability into your APScheduler based 
     - `ADMIN_EMAIL, ADMIN_PASSWORD` can be used to log into the **CronEye** application.
     - Ensure that postgres related variables are sames as the ones given in the previous step.
 3. Add a **.flaskenv** file in [api](/api/) folder based on the [template](/api/.flaskenv.template).
+4. Update backend URLs in [config](/client/src/config/config.js).
 
 ### Use docker
 

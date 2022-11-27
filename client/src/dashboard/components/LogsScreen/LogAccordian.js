@@ -15,8 +15,8 @@ const LogAccordian = (props) => {
         <div className="accordian-container">
             <div className="accordian-title" onClick={() => setIsActive(!isActive)}>
                 <ChevronRightIcon
-                    width="18"
-                    height="18"
+                    width="16"
+                    height="16"
                     color="black"
                     style={{ transform: rotate, transition: "all 0.2s linear", marginRight: "10px" }}
                 />
